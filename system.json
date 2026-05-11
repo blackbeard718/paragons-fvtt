@@ -1,0 +1,99 @@
+{
+  "id": "paragons",
+  "title": "Paragons: The Roleplaying Game",
+  "description": "System for Paragons: The Roleplaying Game by Broken Door Entertainment.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "authors": [
+    {
+      "name": "Your Name Here"
+    }
+  ],
+  "esmodules": [
+    "module/paragons.mjs"
+  ],
+  "styles": [
+    "css/paragons.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {
+        "htmlFields": [
+          "biography",
+          "notes"
+        ],
+        "filePathFields": {
+          "portrait": [
+            "IMAGE"
+          ]
+        }
+      },
+      "npc": {
+        "htmlFields": [
+          "description"
+        ]
+      }
+    },
+    "Item": {
+      "ability": {
+        "htmlFields": [
+          "description",
+          "outsideAction"
+        ]
+      },
+      "talent": {
+        "htmlFields": [
+          "description"
+        ]
+      },
+      "gear": {
+        "htmlFields": [
+          "description"
+        ]
+      }
+    }
+  },
+  "packs": [
+    {
+      "name": "abilities",
+      "label": "Paragons Abilities",
+      "path": "packs/abilities.db",
+      "type": "Item",
+      "system": "paragons"
+    },
+    {
+      "name": "talents",
+      "label": "Archetype Talents",
+      "path": "packs/talents.db",
+      "type": "Item",
+      "system": "paragons"
+    },
+    {
+      "name": "gear",
+      "label": "Unique Gear",
+      "path": "packs/gear.db",
+      "type": "Item",
+      "system": "paragons"
+    },
+    {
+      "name": "npcs",
+      "label": "NPCs",
+      "path": "packs/npcs.db",
+      "type": "Actor",
+      "system": "paragons"
+    }
+  ],
+  "url": "https://github.com/blackbeard718/paragons-fvtt",
+  "manifest": "https://raw.githubusercontent.com/blackbeard718/paragons-fvtt/main/system.json",
+  "download": "https://github.com/blackbeard718/paragons-fvtt/releases/latest/download/paragons-fvtt.zip"
+}
