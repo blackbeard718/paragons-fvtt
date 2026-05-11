@@ -1,0 +1,85 @@
+{
+  "PARAGONS": {
+    "ActorTypes": {
+      "character": "Character",
+      "npc": "NPC"
+    },
+    "ItemTypes": {
+      "ability": "Ability",
+      "talent": "Talent",
+      "gear": "Gear"
+    },
+    "Stats": {
+      "physique": "Physique",
+      "finesse": "Finesse",
+      "stamina": "Stamina",
+      "acuity": "Acuity",
+      "presence": "Presence"
+    },
+    "Archetypes": {
+      "acrobat":     "Acrobat",
+      "brawler":     "Brawler",
+      "commander":   "Commander",
+      "defender":    "Defender",
+      "facilitator": "Facilitator",
+      "hunter":      "Hunter",
+      "strategist":  "Strategist",
+      "striker":     "Striker"
+    },
+    "Reputation": {
+      "villain":  "Villain",
+      "bad":      "Bad",
+      "poor":     "Poor",
+      "neutral":  "Neutral",
+      "positive": "Positive",
+      "good":     "Good",
+      "paragon":  "Paragon"
+    },
+    "NpcTypes": {
+      "antagonist": "Antagonist",
+      "creature":   "Creature",
+      "hero":       "Hero",
+      "villain":    "Villain"
+    },
+    "Fields": {
+      "level":        "Level",
+      "archetype":    "Archetype",
+      "will":         "Will",
+      "resist":       "Resist",
+      "coolPoints":   "Cool Points",
+      "movement":     "Movement",
+      "reputation":   "Reputation",
+      "biography":    "Biography",
+      "origin":       "Origin Story",
+      "motive":       "Motive",
+      "flaw":         "Flaw",
+      "secretId":     "Secret Identity",
+      "notes":        "Notes",
+      "powerRating":  "Power Rating",
+      "dicePoolMax":  "Dice Pool Max",
+      "prerequisite": "Prerequisite",
+      "abilityLevel": "Ability Level",
+      "talentLevel":  "Talent Level",
+      "gearDice":     "Gear Dice",
+      "isDefensive":  "Defensive",
+      "isArtifact":   "Artifact",
+      "equipped":     "Equipped"
+    },
+    "Ranges": {
+      "close":   "Close",
+      "near":    "Near",
+      "far":     "Far",
+      "distant": "Distant"
+    },
+    "Roll": {
+      "success":   "Success",
+      "critical":  "Critical (2 successes)",
+      "failure":   "Failure",
+      "dicePool":  "Dice Pool",
+      "statDice":  "Stat Dice",
+      "abilityDice": "Ability/Talent Dice",
+      "gearDice":  "Gear Dice",
+      "circumstanceDice": "Circumstance Dice"
+    }
+  }
+}
