@@ -1,0 +1,184 @@
+{{!-- templates/item/ability-sheet.hbs --}}
+<form class="paragons-sheet item-sheet ability-sheet" autocomplete="off">
+  <div class="item-header">
+    <img class="item-image" src="{{item.img}}" title="{{item.name}}" />
+    <div class="item-header-fields">
+      <input type="text" name="name" value="{{item.name}}"
+             class="item-name-input" placeholder="Ability Name" />
+      <div class="item-header-meta">
+        <div class="field-group">
+          <label class="field-label">Level</label>
+          <select name="system.abilityLevel">
+            <option value="1" {{#if (compare system.abilityLevel "eq" 1)}}selected{{/if}}>Level 1</option>
+            <option value="3" {{#if (compare system.abilityLevel "eq" 3)}}selected{{/if}}>Level 3</option>
+            <option value="6" {{#if (compare system.abilityLevel "eq" 6)}}selected{{/if}}>Level 6</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Prerequisite</label>
+          <input type="text" name="system.prerequisite"
+                 value="{{system.prerequisite}}" placeholder="None" />
+        </div>
+        <div class="field-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="system.repeatable"
+                   {{#if system.repeatable}}checked{{/if}} />
+            Repeatable
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-body">
+
+    {{!-- Description --}}
+    <div class="form-group">
+      <label class="field-label">Description</label>
+      {{editor system.description target="system.description"
+               button=true editable=editable}}
+    </div>
+
+    {{!-- Outside the Action --}}
+    <div class="form-group">
+      <label class="field-label">Outside the Action</label>
+      {{editor system.outsideAction target="system.outsideAction"
+               button=true editable=editable}}
+    </div>
+
+    {{!-- Dice Bonus --}}
+    <fieldset class="item-fieldset">
+      <legend>Dice Bonus</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Amount (d6)</label>
+          <input type="number" name="system.diceBonus.amount"
+                 value="{{system.diceBonus.amount}}" min="0" max="10" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Roll Type</label>
+          <select name="system.diceBonus.rollType">
+            <option value="none"       {{#if (compare system.diceBonus.rollType "eq" "none")}}selected{{/if}}>None</option>
+            <option value="any"        {{#if (compare system.diceBonus.rollType "eq" "any")}}selected{{/if}}>Any roll</option>
+            <option value="attack"     {{#if (compare system.diceBonus.rollType "eq" "attack")}}selected{{/if}}>Any attack</option>
+            <option value="melee"      {{#if (compare system.diceBonus.rollType "eq" "melee")}}selected{{/if}}>Melee attack</option>
+            <option value="ranged"     {{#if (compare system.diceBonus.rollType "eq" "ranged")}}selected{{/if}}>Ranged attack</option>
+            <option value="hide"       {{#if (compare system.diceBonus.rollType "eq" "hide")}}selected{{/if}}>Hide move</option>
+            <option value="manipulate" {{#if (compare system.diceBonus.rollType "eq" "manipulate")}}selected{{/if}}>Manipulate move</option>
+            <option value="observe"    {{#if (compare system.diceBonus.rollType "eq" "observe")}}selected{{/if}}>Observe move</option>
+            <option value="specific"   {{#if (compare system.diceBonus.rollType "eq" "specific")}}selected{{/if}}>Specific (see condition)</option>
+          </select>
+        </div>
+        <div class="field-group wide">
+          <label class="field-label">Condition / Notes</label>
+          <input type="text" name="system.diceBonus.condition"
+                 value="{{system.diceBonus.condition}}"
+                 placeholder="e.g. when making a Finesse melee attack" />
+        </div>
+      </div>
+    </fieldset>
+
+    {{!-- Stat Modifications --}}
+    <fieldset class="item-fieldset">
+      <legend>Stat Modifications</legend>
+      <div class="form-row stat-mods-row">
+        {{#each statModFields}}
+        <div class="field-group narrow">
+          <label class="field-label">{{label}}</label>
+          <input type="number" name="system.statMods.{{key}}"
+                 value="{{value}}" />
+        </div>
+        {{/each}}
+      </div>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Physique Mult (Thick Skin=2, Unstoppable=4)</label>
+          <input type="number" name="system.statMods.physiqueMult"
+                 value="{{system.statMods.physiqueMult}}" min="1" max="4" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Acuity Mult (Det.Resistance=2, Mental Fort.=4)</label>
+          <input type="number" name="system.statMods.acuityMult"
+                 value="{{system.statMods.acuityMult}}" min="1" max="4" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Will Bonus (Battle Scars=5)</label>
+          <input type="number" name="system.statMods.willBonus"
+                 value="{{system.statMods.willBonus}}" min="0" />
+        </div>
+      </div>
+    </fieldset>
+
+    {{!-- Movement / Special --}}
+    <fieldset class="item-fieldset">
+      <legend>Movement &amp; Special</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Movement Override (0=none, 24=Speedster, 32=Supersonic)</label>
+          <input type="number" name="system.movementOverride"
+                 value="{{system.movementOverride}}" min="0" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Auto-successes on Hide (Cloaking=1, ShadowWalker=2, ShadowMaster=3)</label>
+          <input type="number" name="system.flags.autoSuccessOnHide"
+                 value="{{system.flags.autoSuccessOnHide}}" min="0" max="3" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Seer uses/episode (0=N/A)</label>
+          <input type="number" name="system.flags.seerUsesPerEpisode"
+                 value="{{system.flags.seerUsesPerEpisode}}" min="0" />
+        </div>
+      </div>
+      <div class="form-row checkboxes-row">
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.flags.grantsFly"
+                 {{#if system.flags.grantsFly}}checked{{/if}} /> Grants Fly
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.flags.grantsTelepathy"
+                 {{#if system.flags.grantsTelepathy}}checked{{/if}} /> Grants Telepathy
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.flags.grantsTelekinesis"
+                 {{#if system.flags.grantsTelekinesis}}checked{{/if}} /> Grants Telekinesis
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.flags.grantsExtraAbility"
+                 {{#if system.flags.grantsExtraAbility}}checked{{/if}} /> Grants Extra Ability
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.flags.deathPrevention"
+                 {{#if system.flags.deathPrevention}}checked{{/if}} /> Death Prevention (Survivor)
+        </label>
+      </div>
+    </fieldset>
+
+    {{!-- Uses --}}
+    <fieldset class="item-fieldset">
+      <legend>Uses / Frequency</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Resets Per</label>
+          <select name="system.uses.per">
+            <option value="unlimited" {{#if (compare system.uses.per "eq" "unlimited")}}selected{{/if}}>Unlimited</option>
+            <option value="episode"   {{#if (compare system.uses.per "eq" "episode")}}selected{{/if}}>Episode</option>
+            <option value="scene"     {{#if (compare system.uses.per "eq" "scene")}}selected{{/if}}>Scene</option>
+            <option value="turn"      {{#if (compare system.uses.per "eq" "turn")}}selected{{/if}}>Turn</option>
+            <option value="day"       {{#if (compare system.uses.per "eq" "day")}}selected{{/if}}>Day</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Max Uses (0=unlimited)</label>
+          <input type="number" name="system.uses.max"
+                 value="{{system.uses.max}}" min="0" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Current Uses</label>
+          <input type="number" name="system.uses.current"
+                 value="{{system.uses.current}}" min="0" />
+        </div>
+      </div>
+    </fieldset>
+
+  </div>
+</form>
