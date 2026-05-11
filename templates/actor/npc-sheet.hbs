@@ -1,0 +1,324 @@
+{{!-- templates/actor/npc-sheet.hbs --}}
+{{!-- Paragons NPC Sheet — streamlined for GM use --}}
+
+<form class="paragons-sheet npc-sheet" autocomplete="off">
+
+  <nav class="sheet-tabs">
+    <a class="tab-btn {{#if (compare activeTab "eq" "main")}}active{{/if}}"
+       data-tab="main">Stat Block</a>
+    <a class="tab-btn {{#if (compare activeTab "eq" "abilities")}}active{{/if}}"
+       data-tab="abilities">Abilities &amp; Gear</a>
+    <a class="tab-btn {{#if (compare activeTab "eq" "notes")}}active{{/if}}"
+       data-tab="notes">Notes &amp; Traits</a>
+  </nav>
+
+  {{!-- ═══════════════════════════════════════════ --}}
+  {{!-- TAB: MAIN STAT BLOCK                        --}}
+  {{!-- ═══════════════════════════════════════════ --}}
+  <section class="tab-content {{#if (compare activeTab "eq" "main")}}active{{/if}}"
+           data-tab="main">
+
+    <div class="sidebar-accent"></div>
+
+    {{!-- ── NPC HEADER ───────────────────────────── --}}
+    <div class="npc-header">
+      <div class="npc-header-left">
+        <div class="field-group">
+          <label class="field-label">NPC Name</label>
+          <input type="text" name="name" value="{{actor.name}}"
+                 class="paragon-name-input" placeholder="NPC Name" />
+        </div>
+        <div class="npc-header-meta">
+          <div class="field-group">
+            <label class="field-label">Secret Identity</label>
+            <input type="text" name="system.secretId"
+                   value="{{system.secretId}}" placeholder="Real name..." />
+          </div>
+          <div class="field-group npc-type-group">
+            <label class="field-label">Type</label>
+            <select name="system.npcType">
+              {{#each npcTypeChoices}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Power Rating badge --}}
+      <div class="power-rating-block">
+        <div class="pr-label">Power Rating</div>
+        <input type="number" name="system.powerRating"
+               value="{{system.powerRating}}" min="0" max="7"
+               class="pr-value" />
+        <div class="pr-sublabel">{{powerRatingLabel}}</div>
+        {{!-- GM guidelines for this rating --}}
+        <div class="pr-guidelines">
+          <span title="Max dice pool">🎲 {{prGuidelines.dicePoolMax}}d6</span>
+          <span title="Max stat total">📊 {{prGuidelines.maxStatTotal}}</span>
+          <span title="Max Will+Resist">❤️ {{prGuidelines.maxWillResistTotal}}</span>
+        </div>
+        <label class="checkbox-label human-toggle">
+          <input type="checkbox" name="system.isHuman"
+                 {{#if system.isHuman}}checked{{/if}} />
+          <span>Human (–1 effective PR)</span>
+        </label>
+      </div>
+    </div>{{!-- /.npc-header --}}
+
+    {{!-- ── STATS ────────────────────────────────── --}}
+    <div class="stats-row npc-stats-row">
+      {{#each stats}}
+      <div class="stat-block npc-stat-block" data-stat="{{key}}">
+        <div class="stat-label">{{label}}</div>
+        <div class="stat-value-wrap">
+          <input type="number" name="system.stats.{{key}}"
+                 value="{{value}}" min="0" max="20" class="stat-value" />
+        </div>
+        <div class="stat-icon"></div>
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- Stat total vs cap indicator --}}
+    <div class="stat-total-bar">
+      <span>Stat Total: <strong>{{statTotal}}</strong>
+        / {{prGuidelines.maxStatTotal}} cap</span>
+      <span class="{{#if statOverCap}}over-cap{{/if}}">
+        {{#if statOverCap}}⚠ Over power rating cap{{/if}}
+      </span>
+    </div>
+
+    {{!-- ── WILL / RESIST / MOVEMENT ───────────────── --}}
+    <div class="derived-row npc-derived-row">
+
+      <div class="derived-block will-block">
+        <div class="derived-label">Will</div>
+        <div class="derived-values">
+          <input type="number" name="system.will.value"
+                 value="{{system.will.value}}" min="0" class="derived-current" />
+          <span class="derived-sep">/</span>
+          <input type="number" name="system.will.max"
+                 value="{{system.will.max}}" min="0" class="derived-max-input" />
+        </div>
+      </div>
+
+      <div class="derived-block resist-block">
+        <div class="derived-label">Resist</div>
+        <div class="derived-values">
+          <input type="number" name="system.resist.value"
+                 value="{{system.resist.value}}" min="0" class="derived-current" />
+          <span class="derived-sep">/</span>
+          <input type="number" name="system.resist.max"
+                 value="{{system.resist.max}}" min="0" class="derived-max-input" />
+        </div>
+      </div>
+
+      <div class="derived-block">
+        <div class="derived-label">Will + Resist</div>
+        <div class="derived-values">
+          <span class="derived-total {{#if willResistOverCap}}over-cap{{/if}}">
+            {{willResistTotal}}
+          </span>
+          <span class="derived-sep">/</span>
+          <span class="derived-cap">{{prGuidelines.maxWillResistTotal}}</span>
+        </div>
+      </div>
+
+      <div class="derived-block movement-block">
+        <div class="derived-label">Movement</div>
+        <div class="derived-values">
+          <input type="number" name="system.movement"
+                 value="{{system.movement}}" min="0" class="derived-current single" />
+        </div>
+      </div>
+
+      <div class="derived-block">
+        <div class="derived-label">Dice Pool Max</div>
+        <div class="derived-values">
+          <input type="number" name="system.dicePoolMax"
+                 value="{{system.dicePoolMax}}" min="1" class="derived-current single" />
+        </div>
+      </div>
+
+    </div>{{!-- /.derived-row --}}
+
+    {{!-- ── ATTACK MOVES ─────────────────────────── --}}
+    <div class="attack-moves-section">
+      <div class="section-header">
+        <span class="section-title">Attack Moves</span>
+        <button type="button" class="item-create-btn add-attack-btn"
+                title="Add Attack Move">+</button>
+      </div>
+
+      <div class="attack-moves-list">
+        {{#each system.attackMoves}}
+        <div class="attack-row" data-index="{{@index}}">
+
+          <div class="attack-name">
+            <input type="text"
+                   name="system.attackMoves.{{@index}}.label"
+                   value="{{label}}" placeholder="Attack name" />
+          </div>
+
+          <div class="attack-stat">
+            <select name="system.attackMoves.{{@index}}.stat">
+              {{#each ../statChoices}}
+                <option value="{{value}}"
+                  {{#if (compare value ../stat)}}selected{{/if}}>{{label}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="attack-pool">
+            <label class="field-label">Pool</label>
+            <input type="number"
+                   name="system.attackMoves.{{@index}}.dicePool"
+                   value="{{dicePool}}" min="1" max="30" />
+            <span class="pool-label">d6</span>
+          </div>
+
+          <div class="attack-range">
+            <select name="system.attackMoves.{{@index}}.range">
+              <option value="close"   {{#if (compare range "eq" "close")}}selected{{/if}}>Close</option>
+              <option value="near"    {{#if (compare range "eq" "near")}}selected{{/if}}>Near</option>
+              <option value="far"     {{#if (compare range "eq" "far")}}selected{{/if}}>Far</option>
+              <option value="distant" {{#if (compare range "eq" "distant")}}selected{{/if}}>Distant</option>
+            </select>
+          </div>
+
+          <div class="attack-controls">
+            <button type="button" class="roll-attack-btn"
+                    data-index="{{@index}}" title="Roll this attack">
+              🎲
+            </button>
+            <button type="button" class="delete-attack-btn"
+                    data-index="{{@index}}" title="Remove">✕</button>
+          </div>
+
+        </div>
+        {{else}}
+        <div class="empty-row">
+          <span class="empty-label">No attack moves — click + to add</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>{{!-- /.attack-moves-section --}}
+
+  </section>{{!-- /.tab main --}}
+
+  {{!-- ═══════════════════════════════════════════ --}}
+  {{!-- TAB: ABILITIES & GEAR                       --}}
+  {{!-- ═══════════════════════════════════════════ --}}
+  <section class="tab-content {{#if (compare activeTab "eq" "abilities")}}active{{/if}}"
+           data-tab="abilities">
+
+    <div class="sidebar-accent"></div>
+
+    {{!-- Abilities --}}
+    <div class="abilities-section">
+      <div class="section-header">
+        <span class="section-title">Abilities</span>
+        <button type="button" class="item-create-btn" data-type="ability">+</button>
+      </div>
+      <div class="item-list abilities-list">
+        {{#each abilities}}
+        <div class="item-row ability-row" data-item-id="{{id}}">
+          <div class="item-name">
+            <span class="ability-level-badge">L{{system.abilityLevel}}</span>
+            <span class="item-label">{{name}}</span>
+            {{#if system.diceBonus.amount}}
+              <span class="item-summary">+{{system.diceBonus.amount}}d6 {{system.diceBonus.condition}}</span>
+            {{/if}}
+          </div>
+          <div class="item-controls">
+            <button type="button" class="item-edit" data-item-id="{{id}}">✎</button>
+            <button type="button" class="item-delete" data-item-id="{{id}}">✕</button>
+          </div>
+        </div>
+        {{else}}
+        <div class="item-row empty-row">
+          <span class="empty-label">No abilities</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Gear --}}
+    <div class="gear-section" style="margin-top:14px;">
+      <div class="section-header">
+        <span class="section-title">Gear</span>
+        <button type="button" class="item-create-btn" data-type="gear">+</button>
+      </div>
+      <div class="item-list gear-list">
+        {{#each gear}}
+        <div class="item-row gear-row" data-item-id="{{id}}">
+          <div class="item-name">
+            <span class="gear-dice-badge">{{system.gearDice}}d6</span>
+            <span class="item-label">{{name}}</span>
+            {{#if system.isDefensive}}<span class="defensive-badge">🛡</span>{{/if}}
+          </div>
+          <div class="item-controls">
+            <button type="button" class="item-edit" data-item-id="{{id}}">✎</button>
+            <button type="button" class="item-delete" data-item-id="{{id}}">✕</button>
+          </div>
+        </div>
+        {{else}}
+        <div class="item-row empty-row">
+          <span class="empty-label">No gear</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Ability+Gear total vs cap --}}
+    <div class="stat-total-bar" style="margin-top:10px;">
+      <span>Ability + Gear total: <strong>{{abilityGearTotal}}</strong>
+        / {{prGuidelines.abilityGearTotal}} cap</span>
+    </div>
+
+  </section>{{!-- /.tab abilities --}}
+
+  {{!-- ═══════════════════════════════════════════ --}}
+  {{!-- TAB: NOTES & TRAITS                         --}}
+  {{!-- ═══════════════════════════════════════════ --}}
+  <section class="tab-content {{#if (compare activeTab "eq" "notes")}}active{{/if}}"
+           data-tab="notes">
+
+    <div class="sidebar-accent"></div>
+
+    <div class="npc-traits-layout">
+
+      <div class="traits-column">
+        <div class="section-title" style="margin-bottom:8px;">Traits</div>
+
+        <div class="concept-field">
+          <label class="field-label">Agenda / Objective</label>
+          <textarea name="system.traits.agenda" rows="3"
+                    placeholder="What does this NPC want to accomplish?">{{system.traits.agenda}}</textarea>
+        </div>
+
+        <div class="concept-field">
+          <label class="field-label">Motive</label>
+          <textarea name="system.traits.motive" rows="3"
+                    placeholder="Why is this so important to them?">{{system.traits.motive}}</textarea>
+        </div>
+
+        <div class="concept-field">
+          <label class="field-label">Flaw / Weakness</label>
+          <textarea name="system.traits.flaw" rows="3"
+                    placeholder="How can the paragons exploit this?">{{system.traits.flaw}}</textarea>
+        </div>
+      </div>
+
+      <div class="notes-column">
+        <div class="section-title" style="margin-bottom:8px;">GM Notes</div>
+        {{editor system.description target="system.description"
+                 button=true editable=editable}}
+      </div>
+
+    </div>
+
+  </section>{{!-- /.tab notes --}}
+
+</form>
