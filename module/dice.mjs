@@ -213,7 +213,7 @@ export class ParagonsRoll {
 //  Regular click → rolls with defaults
 // ─────────────────────────────────────────────
 
-export class ParagonsRollDialog extends Dialog {
+export class ParagonsRollDialog {
 
   /**
    * Main entry point.
@@ -222,11 +222,9 @@ export class ParagonsRollDialog extends Dialog {
    * @returns {ParagonsRoll|null}
    */
   static async prompt(config, { force = false } = {}) {
-    // Shift-click or forced → show dialog
     if (force) {
       return ParagonsRollDialog._showDialog(config);
     }
-    // Regular click → roll immediately
     return ParagonsRollDialog._rollDirect(config);
   }
 
@@ -238,164 +236,132 @@ export class ParagonsRollDialog extends Dialog {
   }
 
   static async _showDialog(config) {
-    return new Promise((resolve) => {
-
-      const actor = config.actor;
-      const cpAvailable = actor?.system.coolPoints.value ?? 0;
-
-      const dialog = new ParagonsRollDialog({
-        title: config.label,
-        content: ParagonsRollDialog._buildContent(config, cpAvailable),
-        buttons: {
-          roll: {
-            label: "Roll",
-            icon:  '<i class="fas fa-dice-d6"></i>',
-            callback: async (html) => {
-              const updated = ParagonsRollDialog._readFormValues(html, config);
-              const roll = new ParagonsRoll(updated);
-              await roll.evaluate();
-              await roll.toMessage({
-                rollMode: html.find('[name="rollMode"]').val()
-              });
-              resolve(roll);
-            }
-          },
-          cancel: {
-            label: "Cancel",
-            callback: () => resolve(null)
-          }
-        },
-        default: "roll",
-        render: (html) => {
-          // Live-update the total dice count as sliders change
-          html.find(".paragons-roll-input").on("change input", () => {
-            ParagonsRollDialog._updateTotal(html, config);
-          });
-          ParagonsRollDialog._updateTotal(html, config);
-        }
-      }, {
-        classes: ["paragons", "dialog", "roll-dialog"],
-        width: 420,
-      });
-
-      dialog.render(true);
-    });
-  }
-
-  static _buildContent(config, cpAvailable) {
-    const rollModeOptions = Object.entries(CONFIG.Dice.rollModes)
-      .map(([k, v]) => `<option value="${k}">${game.i18n.localize(v)}</option>`)
-      .join("");
-
+    const actor       = config.actor;
+    const cpAvailable = actor?.system.coolPoints.value ?? 0;
     const currentMode = game.settings.get("core", "rollMode");
 
-    return `
-<form class="paragons-roll-dialog">
+    // Build roll mode options
+    const rollModeOptions = Object.entries(CONFIG.Dice.rollModes)
+      .map(([k, v]) => `<option value="${k}" ${k === currentMode ? "selected" : ""}>${game.i18n.localize(v)}</option>`)
+      .join("");
 
-  <div class="roll-header">
-    <span class="roll-label">${config.label}</span>
-    ${config.statKey ? `<span class="roll-stat">${game.i18n.localize(`PARAGONS.Stats.${config.statKey}`)}</span>` : ""}
-  </div>
+    const poolRows = config.isDeathRoll ? `
+      <div class="pool-row">
+        <label>Stat Dice (Stamina)</label>
+        <input type="number" name="statDice" value="${config.statDice}" min="0" max="20" disabled />
+      </div>` : `
+      <div class="pool-row">
+        <label>Stat Dice</label>
+        <input type="number" name="statDice" value="${config.statDice}" min="0" max="20" />
+      </div>
+      <div class="pool-row">
+        <label>Ability / Talent Dice</label>
+        <input type="number" name="abilityDice" value="${config.abilityDice}" min="0" max="20" />
+      </div>
+      <div class="pool-row">
+        <label>Gear Dice</label>
+        <input type="number" name="gearDice" value="${config.gearDice}" min="0" max="3" />
+      </div>
+      <div class="pool-row">
+        <label>Circumstance Dice <span class="hint">(negative = penalty)</span></label>
+        <input type="number" name="circumstanceDice" value="${config.circumstanceDice}" min="-2" max="2" />
+      </div>`;
 
-  <div class="pool-section">
-    <h3>Dice Pool</h3>
+    const cpSection = cpAvailable > 0
+      ? `<div class="cool-point-section">
+          <label class="checkbox-label">
+            <input type="checkbox" name="spendCoolPoint" ${config.spendCoolPoint ? "checked" : ""} />
+            <span>Spend Cool Point (+1 success)</span>
+            <span class="cp-remaining">(${cpAvailable} remaining)</span>
+          </label>
+          <p class="hint">GM gains 1 Story Point.</p>
+        </div>`
+      : `<div class="cool-point-section exhausted"><p>No Cool Points remaining.</p></div>`;
 
-    <div class="pool-row">
-      <label>Stat Dice</label>
-      <input type="number" name="statDice" class="paragons-roll-input"
-             value="${config.statDice}" min="0" max="20" ${config.isDeathRoll ? "disabled" : ""} />
-    </div>
+    const content = `
+      <div class="paragons-roll-dialog">
+        <div class="roll-header">
+          <span class="roll-label">${config.label}</span>
+        </div>
+        <div class="pool-section">
+          <h3>Dice Pool</h3>
+          ${poolRows}
+          <div class="pool-total">Total: <strong class="total-dice-count">${config.totalDice}</strong>d6</div>
+        </div>
+        ${cpSection}
+        <div class="roll-options">
+          <label>Roll Mode
+            <select name="rollMode">${rollModeOptions}</select>
+          </label>
+          <label>Flavor
+            <input type="text" name="flavor" value="${config.flavor}" placeholder="Describe the action..." />
+          </label>
+        </div>
+      </div>`;
 
-    ${config.isDeathRoll ? "" : `
-    <div class="pool-row">
-      <label>Ability / Talent Dice</label>
-      <input type="number" name="abilityDice" class="paragons-roll-input"
-             value="${config.abilityDice}" min="0" max="20" />
-    </div>
+    return new Promise((resolve) => {
+      const dialog = new foundry.applications.api.DialogV2({
+        window: { title: config.label },
+        content,
+        buttons: [
+          {
+            action: "roll",
+            label:  "Roll",
+            icon:   "fas fa-dice-d6",
+            default: true,
+            callback: async (event, button, dialogEl) => {
+              const form    = dialogEl.querySelector(".paragons-roll-dialog");
+              const getVal  = (name, fallback = 0) => parseInt(form.querySelector(`[name="${name}"]`)?.value) || fallback;
+              const checked = (name) => form.querySelector(`[name="${name}"]`)?.checked ?? false;
 
-    <div class="pool-row">
-      <label>Gear Dice</label>
-      <input type="number" name="gearDice" class="paragons-roll-input"
-             value="${config.gearDice}" min="0" max="3" />
-    </div>
+              const updated = new ParagonsRollConfig({
+                actor:            config.actor,
+                rollType:         config.rollType,
+                label:            config.label,
+                statKey:          config.statKey,
+                isDeathRoll:      config.isDeathRoll,
+                statDice:         getVal("statDice", config.statDice),
+                abilityDice:      config.isDeathRoll ? 0 : getVal("abilityDice"),
+                gearDice:         config.isDeathRoll ? 0 : getVal("gearDice"),
+                circumstanceDice: config.isDeathRoll ? 0 : getVal("circumstanceDice"),
+                spendCoolPoint:   checked("spendCoolPoint"),
+                flavor:           form.querySelector('[name="flavor"]')?.value ?? "",
+              });
 
-    <div class="pool-row">
-      <label>Circumstance Dice
-        <span class="hint">(negative = penalty)</span>
-      </label>
-      <input type="number" name="circumstanceDice" class="paragons-roll-input"
-             value="${config.circumstanceDice}" min="-2" max="2" />
-    </div>
-    `}
+              const roll = new ParagonsRoll(updated);
+              await roll.evaluate();
+              await roll.toMessage({ rollMode: form.querySelector('[name="rollMode"]')?.value });
+              resolve(roll);
+            },
+          },
+          {
+            action:   "cancel",
+            label:    "Cancel",
+            callback: () => resolve(null),
+          },
+        ],
+        rejectClose: false,
+        render: (event, dialogEl) => {
+          // Live-update total dice count
+          dialogEl.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener("input", () => {
+              const getV = (name, fb = 0) => parseInt(dialogEl.querySelector(`[name="${name}"]`)?.value) || fb;
+              let total;
+              if (config.isDeathRoll) {
+                total = Math.max(MIN_POOL_SIZE, getV("statDice", config.statDice));
+              } else {
+                total = Math.max(MIN_POOL_SIZE,
+                  getV("statDice") + getV("abilityDice") + getV("gearDice") + getV("circumstanceDice"));
+              }
+              const el = dialogEl.querySelector(".total-dice-count");
+              if (el) el.textContent = total;
+            });
+          });
+        },
+      });
 
-    <div class="pool-total">
-      Total: <strong class="total-dice-count">—</strong>d6
-    </div>
-  </div>
-
-  ${cpAvailable > 0 ? `
-  <div class="cool-point-section">
-    <label class="checkbox-label">
-      <input type="checkbox" name="spendCoolPoint" ${config.spendCoolPoint ? "checked" : ""} />
-      <span>Spend Cool Point for +1 success</span>
-      <span class="cp-remaining">(${cpAvailable} remaining)</span>
-    </label>
-    <p class="hint">GM gains 1 Story Point when you do this.</p>
-  </div>
-  ` : `
-  <div class="cool-point-section exhausted">
-    <p>No Cool Points remaining this episode.</p>
-  </div>
-  `}
-
-  <div class="roll-options">
-    <label>Roll Mode</label>
-    <select name="rollMode">
-      ${rollModeOptions.replace(`value="${currentMode}"`, `value="${currentMode}" selected`)}
-    </select>
-
-    <label>Flavor (optional)</label>
-    <input type="text" name="flavor" value="${config.flavor}" placeholder="Describe the action..." />
-  </div>
-
-</form>`;
-  }
-
-  static _readFormValues(html, originalConfig) {
-    const getValue = (name, fallback = 0) =>
-      parseInt(html.find(`[name="${name}"]`).val()) || fallback;
-
-    return new ParagonsRollConfig({
-      actor:            originalConfig.actor,
-      rollType:         originalConfig.rollType,
-      label:            originalConfig.label,
-      statKey:          originalConfig.statKey,
-      isDeathRoll:      originalConfig.isDeathRoll,
-      statDice:         getValue("statDice", originalConfig.statDice),
-      abilityDice:      originalConfig.isDeathRoll ? 0 : getValue("abilityDice"),
-      gearDice:         originalConfig.isDeathRoll ? 0 : getValue("gearDice"),
-      circumstanceDice: originalConfig.isDeathRoll ? 0 : getValue("circumstanceDice"),
-      spendCoolPoint:   html.find('[name="spendCoolPoint"]').prop("checked") ?? false,
-      flavor:           html.find('[name="flavor"]').val() ?? "",
+      dialog.render({ force: true });
     });
-  }
-
-  static _updateTotal(html, config) {
-    const getValue = (name, fallback = 0) =>
-      parseInt(html.find(`[name="${name}"]`).val()) || fallback;
-
-    let total;
-    if (config.isDeathRoll) {
-      total = Math.max(MIN_POOL_SIZE, getValue("statDice", config.statDice));
-    } else {
-      const raw = getValue("statDice")
-                + getValue("abilityDice")
-                + getValue("gearDice")
-                + getValue("circumstanceDice");
-      total = Math.max(MIN_POOL_SIZE, raw);
-    }
-
-    html.find(".total-dice-count").text(total);
   }
 }
 
