@@ -23,7 +23,9 @@ export class ParagonsItemSheet extends ItemSheet {
 
   async getData(options = {}) {
     const context = await super.getData(options);
-    const system  = this.item.system;
+    context.system = context.data.system;
+    context.flags  = context.data.flags;
+    const system   = context.system;
 
     // Stat mod fields for ability/gear sheets
     context.statModFields = [
@@ -52,6 +54,6 @@ export class ParagonsItemSheet extends ItemSheet {
   }
 
   async _updateObject(event, formData) {
-    return this.item.update(formData);
+    return this.item.update(foundry.utils.expandObject(formData));
   }
 }
