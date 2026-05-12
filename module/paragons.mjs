@@ -129,16 +129,18 @@ function _registerHandlebarsHelpers() {
 
   // Repeat a block N times (useful for reputation pip rendering)
   Handlebars.registerHelper("times", function(n, options) {
-   let result = "";
-   for (let i = 0; i < n; i++) result += options.fn(i);
-   return result;
+    let result = "";
+    for (let i = 0; i < n; i++) result += options.fn(i);
+    return result;
   });
 
-  // Compare two values (eq, neq, lt, gt, lte, gte)
-  Handlebars.registerHelper("compare", function(a, op, b, options) {
-   const ops = { eq: a == b, neq: a != b, lt: a < b, gt: a > b, lte: a <= b, gte: a >= b };
-   return ops[op] ? options.fn(this) : options.inverse(this);
-  });
+  // Simple equality check — used as subexpression: {{#if (eq a b)}}
+  Handlebars.registerHelper("eq",  (a, b) => a == b);
+  Handlebars.registerHelper("neq", (a, b) => a != b);
+  Handlebars.registerHelper("lt",  (a, b) => a <  b);
+  Handlebars.registerHelper("gt",  (a, b) => a >  b);
+  Handlebars.registerHelper("lte", (a, b) => a <= b);
+  Handlebars.registerHelper("gte", (a, b) => a >= b);
 
   // Return the archetype stat boost labels
   Handlebars.registerHelper("archetypeBoosts", (archetype) => {
