@@ -7,9 +7,11 @@ export class ParagonsItemSheet extends ItemSheet {
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["paragons", "sheet", "item"],
-      width:   520,
-      height:  580,
+      classes:        ["paragons", "sheet", "item"],
+      width:          520,
+      height:         580,
+      submitOnChange: true,
+      closeOnSubmit:  false,
       tabs: [],
     });
   }
