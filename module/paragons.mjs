@@ -1,6 +1,6 @@
 /**
  * paragons.mjs — Main entry point for Paragons: The Roleplaying Game
- * Loaded via esmodules in system.json
+ * Foundry VTT V13 / ApplicationV2
  */
 
 import { CharacterData } from "./actor/character-data.mjs";
@@ -12,15 +12,15 @@ import { ParagonsCharacterSheet } from "./sheets/character-sheet.mjs";
 import { ParagonsNpcSheet }       from "./sheets/npc-sheet.mjs";
 import { ParagonsItemSheet }      from "./sheets/item-sheet.mjs";
 
-// Expose roll API globally so sheet classes and macros can reach it
+// Expose roll API globally for macros
 globalThis.ParagonsRoll       = ParagonsRoll;
 globalThis.ParagonsRollDialog = ParagonsRollDialog;
 
 // ─────────────────────────────────────────────
-//  init hook — runs before anything is rendered
+//  init
 // ─────────────────────────────────────────────
 Hooks.once("init", () => {
-  console.log("Paragons | Initialising system");
+  console.log("Paragons | Initialising system (V13)");
 
   // ── World Settings ─────────────────────────
   game.settings.register("paragons", "storyPoints", {
@@ -41,21 +41,19 @@ Hooks.once("init", () => {
     default: true,
   });
 
-  // ── Register Actor data models ─────────────
+  // ── Data Models ────────────────────────────
   CONFIG.Actor.dataModels = {
     character: CharacterData,
     npc:       NpcData,
   };
 
-  // ── Register Item data models ──────────────
   CONFIG.Item.dataModels = {
     ability: AbilityData,
     talent:  TalentData,
     gear:    GearData,
   };
 
-  // ── Token bar attributes ───────────────────
-  // Will and Resist are the two primary trackable bars.
+  // ── Token Bar Attributes ───────────────────
   CONFIG.Actor.trackableAttributes = {
     character: {
       bar:   ["will", "resist", "coolPoints"],
@@ -67,74 +65,57 @@ Hooks.once("init", () => {
     },
   };
 
-  // ── Register Actor sheet classes ───────────
-  // ── Actor Sheets ──────────────────────────
+  // ── Actor Sheets (V13 pattern) ─────────────
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("paragons", ParagonsCharacterSheet, {
-    types: ["character"], makeDefault: true, label: "Paragons Character Sheet"
+    types:       ["character"],
+    makeDefault: true,
+    label:       "PARAGONS.Sheets.Character",
   });
   Actors.registerSheet("paragons", ParagonsNpcSheet, {
-    types: ["npc"], makeDefault: true, label: "Paragons NPC Sheet"
+    types:       ["npc"],
+    makeDefault: true,
+    label:       "PARAGONS.Sheets.Npc",
   });
 
-  // ── Item Sheets ───────────────────────────
+  // ── Item Sheets (V13 pattern) ──────────────
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("paragons", ParagonsItemSheet, {
-    types: ["ability", "talent", "gear"],
+    types:       ["ability", "talent", "gear"],
     makeDefault: true,
-    label: "Paragons Item Sheet"
+    label:       "PARAGONS.Sheets.Item",
   });
 
-  // ── Register Item sheet classes ────────────
-
-
-  // ── Handlebars helpers ─────────────────────
+  // ── Handlebars Helpers ─────────────────────
   _registerHandlebarsHelpers();
 
   console.log("Paragons | Init complete");
 });
 
 // ─────────────────────────────────────────────
-//  ready hook — runs after the world is loaded
+//  ready
 // ─────────────────────────────────────────────
 Hooks.once("ready", () => {
   console.log("Paragons | System ready");
 });
 
 // ─────────────────────────────────────────────
-//  Chat card interactivity
+//  Chat card — Cool Point button
 // ─────────────────────────────────────────────
 Hooks.on("renderChatMessage", (message, html) => {
-  // Wire up the Cool Point spend button on roll cards
-  html.find(".paragons-spend-cp").on("click", onChatCardCoolPointSpend);
+  // V13: html is a plain DOM element, not jQuery
+  const el = html instanceof HTMLElement ? html : html[0];
+  el?.querySelectorAll(".paragons-spend-cp").forEach(btn => {
+    btn.addEventListener("click", onChatCardCoolPointSpend);
+  });
 });
 
 // ─────────────────────────────────────────────
-//  Handlebars helpers
+//  Handlebars Helpers
 // ─────────────────────────────────────────────
 function _registerHandlebarsHelpers() {
 
-  // Render a pool of d6 icons — useful for dice pool display
-  Handlebars.registerHelper("dicePool", (count) => {
-    return new Handlebars.SafeString(
-      Array.from({ length: count }, () => `<i class="fas fa-dice-d6"></i>`).join("")
-    );
-  });
-
-  // Capitalise first letter
-  Handlebars.registerHelper("capitalize", (str) => {
-    if (typeof str !== "string") return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  });
-
-  // Repeat a block N times (useful for reputation pip rendering)
-  Handlebars.registerHelper("times", function(n, options) {
-    let result = "";
-    for (let i = 0; i < n; i++) result += options.fn(i);
-    return result;
-  });
-
-  // Simple equality check — used as subexpression: {{#if (eq a b)}}
+  // Simple equality — used as {{#if (eq a b)}}
   Handlebars.registerHelper("eq",  (a, b) => a == b);
   Handlebars.registerHelper("neq", (a, b) => a != b);
   Handlebars.registerHelper("lt",  (a, b) => a <  b);
@@ -142,7 +123,27 @@ function _registerHandlebarsHelpers() {
   Handlebars.registerHelper("lte", (a, b) => a <= b);
   Handlebars.registerHelper("gte", (a, b) => a >= b);
 
-  // Return the archetype stat boost labels
+  // Repeat N times — {{#times 5}}...{{/times}}
+  Handlebars.registerHelper("times", function(n, options) {
+    let result = "";
+    for (let i = 0; i < n; i++) result += options.fn(i);
+    return result;
+  });
+
+  // Dice pool icon string
+  Handlebars.registerHelper("dicePool", (count) => {
+    return new Handlebars.SafeString(
+      Array.from({ length: count }, () => `<i class="fas fa-dice-d6"></i>`).join("")
+    );
+  });
+
+  // Capitalize first letter
+  Handlebars.registerHelper("capitalize", (str) => {
+    if (typeof str !== "string") return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  });
+
+  // Archetype stat boost label
   Handlebars.registerHelper("archetypeBoosts", (archetype) => {
     const boosts = {
       acrobat:     "+1 Finesse, +1 Presence",
