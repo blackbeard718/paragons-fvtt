@@ -1,10 +1,9 @@
-{{!-- templates/item/gear-sheet.hbs --}}
-<form class="paragons-sheet item-sheet gear-sheet" autocomplete="off">
+{{!-- gear-sheet.hbs — V13 --}}
+<div class="paragons-sheet item-sheet gear-sheet">
   <div class="item-header">
-    <img class="item-image" src="{{item.img}}" title="{{item.name}}" />
+    <img class="item-image" src="{{item.img}}" title="{{item.name}}" data-action="editImage" data-field="img" />
     <div class="item-header-fields">
-      <input type="text" name="name" value="{{item.name}}"
-             class="item-name-input" placeholder="Gear Name" />
+      <input type="text" name="name" value="{{item.name}}" class="item-name-input" placeholder="Gear Name" />
       <div class="item-header-meta">
         <div class="field-group">
           <label class="field-label">Gear Dice</label>
@@ -24,42 +23,23 @@
             <option value="distant" {{#if (eq system.range "distant")}}selected{{/if}}>Distant</option>
           </select>
         </div>
-        <div class="field-group checkboxes-row">
-          <label class="checkbox-label">
-            <input type="checkbox" name="system.isDefensive"
-                   {{#if system.isDefensive}}checked{{/if}} />
-            Defensive (adds to Resist)
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" name="system.isArtifact"
-                   {{#if system.isArtifact}}checked{{/if}} />
-            Artifact
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" name="system.equipped"
-                   {{#if system.equipped}}checked{{/if}} />
-            Equipped
-          </label>
+        <div class="checkboxes-row">
+          <label class="checkbox-label"><input type="checkbox" name="system.isDefensive" {{#if system.isDefensive}}checked{{/if}} /> Defensive</label>
+          <label class="checkbox-label"><input type="checkbox" name="system.isArtifact"  {{#if system.isArtifact}}checked{{/if}} /> Artifact</label>
+          <label class="checkbox-label"><input type="checkbox" name="system.equipped"    {{#if system.equipped}}checked{{/if}} /> Equipped</label>
         </div>
       </div>
     </div>
   </div>
-
   <div class="item-body">
-
     <div class="form-group">
       <label class="field-label">Description</label>
-      {{editor system.description target="system.description"
-               button=true editable=editable}}
+      <textarea name="system.description" rows="5">{{system.description}}</textarea>
     </div>
-
     <div class="form-group">
       <label class="field-label">Prerequisite</label>
-      <input type="text" name="system.prerequisite"
-             value="{{system.prerequisite}}"
-             placeholder="e.g. Telepathy ability required" />
+      <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="e.g. Telepathy ability required" />
     </div>
-
     <fieldset class="item-fieldset">
       <legend>Stat Modifications (Unique Gear)</legend>
       <div class="form-row stat-mods-row">
@@ -71,35 +51,27 @@
         {{/each}}
       </div>
     </fieldset>
-
     <fieldset class="item-fieldset">
       <legend>Additional Dice Bonus</legend>
       <div class="form-row">
         <div class="field-group">
           <label class="field-label">Bonus Dice (d6)</label>
-          <input type="number" name="system.diceBonus.amount"
-                 value="{{system.diceBonus.amount}}" min="0" max="6" />
+          <input type="number" name="system.diceBonus.amount" value="{{system.diceBonus.amount}}" min="0" max="6" />
         </div>
         <div class="field-group wide">
           <label class="field-label">Condition</label>
-          <input type="text" name="system.diceBonus.condition"
-                 value="{{system.diceBonus.condition}}"
-                 placeholder="e.g. +2d6 when using Telepathy" />
+          <input type="text" name="system.diceBonus.condition" value="{{system.diceBonus.condition}}" placeholder="e.g. +2d6 when using Telepathy" />
         </div>
       </div>
     </fieldset>
-
     <fieldset class="item-fieldset">
       <legend>Granted Ability</legend>
       <div class="form-row">
         <div class="field-group wide">
           <label class="field-label">Grants Ability (name)</label>
-          <input type="text" name="system.grantsAbility"
-                 value="{{system.grantsAbility}}"
-                 placeholder="e.g. Speedster (Marathon Boots)" />
+          <input type="text" name="system.grantsAbility" value="{{system.grantsAbility}}" placeholder="e.g. Speedster (Marathon Boots)" />
         </div>
       </div>
     </fieldset>
-
   </div>
-</form>
+</div>
