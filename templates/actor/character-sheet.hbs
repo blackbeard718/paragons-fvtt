@@ -7,16 +7,16 @@
   {{!-- SHEET TABS                                   --}}
   {{!-- ═══════════════════════════════════════════ --}}
   <nav class="sheet-tabs">
-    <a class="tab-btn {{#if (compare activeTab "eq" "play")}}active{{/if}}"
+    <a class="tab-btn {{#if (eq activeTab "play")}}active{{/if}}"
        data-tab="play">Play Sheet</a>
-    <a class="tab-btn {{#if (compare activeTab "eq" "concept")}}active{{/if}}"
+    <a class="tab-btn {{#if (eq activeTab "concept")}}active{{/if}}"
        data-tab="concept">Concept &amp; Moves</a>
   </nav>
 
   {{!-- ═══════════════════════════════════════════ --}}
   {{!-- TAB: PLAY SHEET (Page 1)                    --}}
   {{!-- ═══════════════════════════════════════════ --}}
-  <section class="tab-content {{#if (compare activeTab "eq" "play")}}active{{/if}}"
+  <section class="tab-content {{#if (eq activeTab "play")}}active{{/if}}"
            data-tab="play">
 
     {{!-- Blue left sidebar accent --}}
@@ -302,7 +302,7 @@
   {{!-- ═══════════════════════════════════════════ --}}
   {{!-- TAB: CONCEPT + MOVES (Page 2)              --}}
   {{!-- ═══════════════════════════════════════════ --}}
-  <section class="tab-content {{#if (compare activeTab "eq" "concept")}}active{{/if}}"
+  <section class="tab-content {{#if (eq activeTab "concept")}}active{{/if}}"
            data-tab="concept">
 
     <div class="sidebar-accent"></div>
