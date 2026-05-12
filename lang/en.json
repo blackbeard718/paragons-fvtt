@@ -1,14 +1,16 @@
 {
-  "PARAGONS": {
-    "ActorTypes": {
+  "TYPES": {
+    "Actor": {
       "character": "Character",
       "npc": "NPC"
     },
-    "ItemTypes": {
+    "Item": {
       "ability": "Ability",
       "talent": "Talent",
       "gear": "Gear"
-    },
+    }
+  },
+  "PARAGONS": {
     "Stats": {
       "physique": "Physique",
       "finesse": "Finesse",
@@ -72,13 +74,13 @@
       "distant": "Distant"
     },
     "Roll": {
-      "success":   "Success",
-      "critical":  "Critical (2 successes)",
-      "failure":   "Failure",
-      "dicePool":  "Dice Pool",
-      "statDice":  "Stat Dice",
-      "abilityDice": "Ability/Talent Dice",
-      "gearDice":  "Gear Dice",
+      "success":        "Success",
+      "critical":       "Critical (2 successes)",
+      "failure":        "Failure",
+      "dicePool":       "Dice Pool",
+      "statDice":       "Stat Dice",
+      "abilityDice":    "Ability/Talent Dice",
+      "gearDice":       "Gear Dice",
       "circumstanceDice": "Circumstance Dice"
     }
   }
