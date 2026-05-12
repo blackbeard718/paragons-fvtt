@@ -33,7 +33,10 @@ export class ParagonsCharacterSheet extends ActorSheet {
   // ─────────────────────────────────────────────
   async getData(options = {}) {
     const context = await super.getData(options);
-    const system  = this.actor.system;
+    const actorData = context.data;
+    context.system = actorData.system;
+    context.flags  = actorData.flags;
+    const system   = context.system;
 
     // ── Stats array for template iteration ────
     context.stats = [
@@ -200,7 +203,7 @@ export class ParagonsCharacterSheet extends ActorSheet {
   //  Form submission — persist all field changes
   // ─────────────────────────────────────────────
   async _updateObject(event, formData) {
-    return this.actor.update(formData);
+    return this.actor.update(foundry.utils.expandObject(formData));
   }
 
   // ─────────────────────────────────────────────
