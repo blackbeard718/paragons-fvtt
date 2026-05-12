@@ -9,7 +9,7 @@
   },
   "authors": [
     {
-      "name": "blackbeard718"
+      "name": "Your Name Here"
     }
   ],
   "esmodules": [
@@ -95,5 +95,5 @@
   ],
   "url": "https://github.com/blackbeard718/paragons-fvtt",
   "manifest": "https://raw.githubusercontent.com/blackbeard718/paragons-fvtt/main/system.json",
-  "download": "https://github.com/blackbeard718/paragons-fvtt/archive/refs/heads/main.zip"
+  "download": "https://github.com/blackbeard718/paragons-fvtt/releases/latest/download/paragons-fvtt.zip"
 }
