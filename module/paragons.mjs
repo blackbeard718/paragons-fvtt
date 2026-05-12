@@ -128,14 +128,14 @@ function _registerHandlebarsHelpers() {
   });
 
   // Repeat a block N times (useful for reputation pip rendering)
-  Handlebars.registerHelper("times", (n, block) => {
-    let result = "";
-    for (let i = 0; i < n; i++) result += block.fn(i);
-    return result;
+  Handlebars.registerHelper("times", function(n, options) {
+   let result = "";
+   for (let i = 0; i < n; i++) result += options.fn(i);
+   return result;
   });
 
   // Compare two values (eq, neq, lt, gt, lte, gte)
-  Handlebars.registerHelper("compare", (a, op, b, options) => {
+  Handlebars.registerHelper("compare", function(a, op, b, options) {
     const ops = { eq: a == b, neq: a != b, lt: a < b, gt: a > b, lte: a <= b, gte: a >= b };
     return ops[op] ? options.fn(this) : options.inverse(this);
   });
