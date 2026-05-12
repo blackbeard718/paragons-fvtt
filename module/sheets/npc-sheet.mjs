@@ -14,6 +14,7 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     classes: ["paragons", "sheet", "actor", "npc"],
     position: { width: 640, height: 700 },
     window:   { resizable: true },
+    tag: "form",
     form: {
       submitOnChange: true,
       closeOnSubmit:  false,
