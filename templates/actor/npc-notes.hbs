@@ -1,0 +1,25 @@
+{{!-- npc-notes.hbs --}}
+<section class="tab npc-notes {{tabs.sheet.notes.cssClass}}" data-tab="notes" data-group="sheet">
+  <div class="sidebar-accent"></div>
+  <div class="npc-traits-layout">
+    <div class="traits-column">
+      <div class="section-title" style="margin-bottom:8px;">Traits</div>
+      <div class="concept-field">
+        <label class="field-label">Agenda / Objective</label>
+        <textarea name="system.traits.agenda" rows="3" placeholder="What does this NPC want?">{{system.traits.agenda}}</textarea>
+      </div>
+      <div class="concept-field">
+        <label class="field-label">Motive</label>
+        <textarea name="system.traits.motive" rows="3" placeholder="Why is this important to them?">{{system.traits.motive}}</textarea>
+      </div>
+      <div class="concept-field">
+        <label class="field-label">Flaw / Weakness</label>
+        <textarea name="system.traits.flaw" rows="3" placeholder="How can the paragons exploit this?">{{system.traits.flaw}}</textarea>
+      </div>
+    </div>
+    <div class="notes-column">
+      <div class="section-title" style="margin-bottom:8px;">GM Notes</div>
+      <textarea name="system.description" rows="16" placeholder="GM notes, tactics, background...">{{system.description}}</textarea>
+    </div>
+  </div>
+</section>
