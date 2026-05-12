@@ -13,10 +13,12 @@ export class ParagonsCharacterSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes:   ["paragons", "sheet", "actor", "character"],
-      template:  "systems/paragons/templates/actor/character-sheet.hbs",
-      width:     740,
-      height:    860,
+      classes:        ["paragons", "sheet", "actor", "character"],
+      template:       "systems/paragons/templates/actor/character-sheet.hbs",
+      width:          740,
+      height:         860,
+      submitOnChange: true,
+      closeOnSubmit:  false,
       tabs: [{
         navSelector:     ".sheet-tabs",
         contentSelector: ".tab-content",
