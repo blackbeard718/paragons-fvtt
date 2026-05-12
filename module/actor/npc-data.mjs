@@ -26,8 +26,8 @@ export class NpcData extends foundry.abstract.TypeDataModel {
 
       // NPC role category for sheet organisation
       npcType: new StringField({
-        required: true,
-        initial: "antagonist",
+        required: false,
+        initial: "",
         choices: ["antagonist", "creature", "hero", "villain"]
       }),
 
