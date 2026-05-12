@@ -87,6 +87,13 @@
       "Character": "Paragons Character Sheet",
       "Npc": "Paragons NPC Sheet",
       "Item": "Paragons Item Sheet"
+    },
+    "Tabs": {
+      "play": "Play Sheet",
+      "concept": "Concept & Moves",
+      "main": "Stat Block",
+      "abilities": "Abilities & Gear",
+      "notes": "Notes & Traits"
     }
   }
 }
