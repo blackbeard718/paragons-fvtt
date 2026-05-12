@@ -10,10 +10,12 @@ export class ParagonsNpcSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes:   ["paragons", "sheet", "actor", "npc"],
-      template:  "systems/paragons/templates/actor/npc-sheet.hbs",
-      width:     640,
-      height:    700,
+      classes:        ["paragons", "sheet", "actor", "npc"],
+      template:       "systems/paragons/templates/actor/npc-sheet.hbs",
+      width:          640,
+      height:         700,
+      submitOnChange: true,
+      closeOnSubmit:  false,
       tabs: [{
         navSelector:     ".sheet-tabs",
         contentSelector: ".tab-content",
