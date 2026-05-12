@@ -18,17 +18,19 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
       submitOnChange: true,
       closeOnSubmit:  false,
     },
-    actions: {
-      rollStat:        ParagonsCharacterSheet.#rollStat,
-      rollMove:        ParagonsCharacterSheet.#rollMove,
-      rollDeath:       ParagonsCharacterSheet.#rollDeath,
-      itemCreate:      ParagonsCharacterSheet.#itemCreate,
-      itemEdit:        ParagonsCharacterSheet.#itemEdit,
-      itemDelete:      ParagonsCharacterSheet.#itemDelete,
-      itemEquipToggle: ParagonsCharacterSheet.#itemEquipToggle,
-      useAbility:      ParagonsCharacterSheet.#useAbility,
-      repTierSet:      ParagonsCharacterSheet.#repTierSet,
-    },
+  };
+
+  // Actions defined after class body to avoid private field init order issues
+  static _actions = {
+    rollStat:        ParagonsCharacterSheet._rollStat,
+    rollMove:        ParagonsCharacterSheet._rollMove,
+    rollDeath:       ParagonsCharacterSheet._rollDeath,
+    itemCreate:      ParagonsCharacterSheet._itemCreate,
+    itemEdit:        ParagonsCharacterSheet._itemEdit,
+    itemDelete:      ParagonsCharacterSheet._itemDelete,
+    itemEquipToggle: ParagonsCharacterSheet._itemEquipToggle,
+    useAbility:      ParagonsCharacterSheet._useAbility,
+    repTierSet:      ParagonsCharacterSheet._repTierSet,
   };
 
   static TABS = {
@@ -117,19 +119,19 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
 
   // ── Actions ──────────────────────────────────
 
-  static async #rollStat(event, target) {
+  static async _rollStat(event, target) {
     await rollStat(this.actor, target.dataset.stat, event);
   }
 
-  static async #rollMove(event, target) {
+  static async _rollMove(event, target) {
     await rollMove(this.actor, { statKey: target.dataset.stat, label: target.dataset.label, event });
   }
 
-  static async #rollDeath(event, _target) {
+  static async _rollDeath(event, _target) {
     await rollDeath(this.actor, event);
   }
 
-  static async #itemCreate(_event, target) {
+  static async _itemCreate(_event, target) {
     const type = target.dataset.type;
     const defaults = {
       ability: { name: "New Ability", type: "ability", system: { abilityLevel: 1 } },
@@ -142,11 +144,11 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     item?.sheet.render({ force: true });
   }
 
-  static async #itemEdit(_event, target) {
+  static async _itemEdit(_event, target) {
     this.actor.items.get(target.dataset.itemId)?.sheet.render({ force: true });
   }
 
-  static async #itemDelete(_event, target) {
+  static async _itemDelete(_event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (!item) return;
     const confirmed = await foundry.applications.api.DialogV2.confirm({
@@ -156,19 +158,19 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     if (confirmed) await item.delete();
   }
 
-  static async #itemEquipToggle(_event, target) {
+  static async _itemEquipToggle(_event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (item) await item.update({ "system.equipped": !item.system.equipped });
   }
 
-  static async #useAbility(_event, target) {
+  static async _useAbility(_event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (!item?.system.hasUses) return;
     if (item.system.isExhausted) { ui.notifications.warn(`${item.name} has no uses remaining.`); return; }
     await item.update({ "system.uses.current": item.system.uses.current - 1 });
   }
 
-  static async #repTierSet(_event, target) {
+  static async _repTierSet(_event, target) {
     await this.actor.update({ "system.reputation.tier": parseInt(target.dataset.tier) });
   }
 }
@@ -191,3 +193,6 @@ function _buildMovesData() {
     { key: "useAbility", name: "Use an Ability",    description: "No roll required unless the ability calls for one.", rollable: false },
   ];
 }
+
+// Merge actions into DEFAULT_OPTIONS after class is fully defined
+ParagonsCharacterSheet.DEFAULT_OPTIONS.actions = ParagonsCharacterSheet._actions;
