@@ -18,14 +18,7 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       submitOnChange: true,
       closeOnSubmit:  false,
     },
-    actions: {
-      rollAttack:   ParagonsNpcSheet.#rollAttack,
-      addAttack:    ParagonsNpcSheet.#addAttack,
-      deleteAttack: ParagonsNpcSheet.#deleteAttack,
-      itemCreate:   ParagonsNpcSheet.#itemCreate,
-      itemEdit:     ParagonsNpcSheet.#itemEdit,
-      itemDelete:   ParagonsNpcSheet.#itemDelete,
-    },
+
   };
 
   static TABS = {
@@ -103,25 +96,25 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   // ── Actions ──────────────────────────────────
 
-  static async #rollAttack(_event, target) {
+  static async _rollAttack(_event, target) {
     const index = parseInt(target.dataset.index);
     const move  = this.actor.system.attackMoves[index];
     if (move) await rollNpcAttack(this.actor, move, _event);
   }
 
-  static async #addAttack() {
+  static async _addAttack() {
     const moves = foundry.utils.deepClone(this.actor.system.attackMoves ?? []);
     moves.push({ label: "New Attack", stat: "physique", dicePool: 4, range: "near", description: "" });
     await this.actor.update({ "system.attackMoves": moves });
   }
 
-  static async #deleteAttack(_event, target) {
+  static async _deleteAttack(_event, target) {
     const moves = foundry.utils.deepClone(this.actor.system.attackMoves ?? []);
     moves.splice(parseInt(target.dataset.index), 1);
     await this.actor.update({ "system.attackMoves": moves });
   }
 
-  static async #itemCreate(_event, target) {
+  static async _itemCreate(_event, target) {
     const type = target.dataset.type;
     const defaults = {
       ability: { name: "New Ability", type: "ability", system: { abilityLevel: 1 } },
@@ -133,11 +126,11 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     item?.sheet.render({ force: true });
   }
 
-  static async #itemEdit(_event, target) {
+  static async _itemEdit(_event, target) {
     this.actor.items.get(target.dataset.itemId)?.sheet.render({ force: true });
   }
 
-  static async #itemDelete(_event, target) {
+  static async _itemDelete(_event, target) {
     const item = this.actor.items.get(target.dataset.itemId);
     if (!item) return;
     const confirmed = await foundry.applications.api.DialogV2.confirm({
@@ -155,3 +148,13 @@ function _prLabel(pr) {
     "Level 6 equivalent", "Above any individual paragon",
   ][pr] ?? "Unknown";
 }
+
+// Merge actions into DEFAULT_OPTIONS after class is fully defined
+ParagonsNpcSheet.DEFAULT_OPTIONS.actions = {
+  rollAttack:   ParagonsNpcSheet._rollAttack,
+  addAttack:    ParagonsNpcSheet._addAttack,
+  deleteAttack: ParagonsNpcSheet._deleteAttack,
+  itemCreate:   ParagonsNpcSheet._itemCreate,
+  itemEdit:     ParagonsNpcSheet._itemEdit,
+  itemDelete:   ParagonsNpcSheet._itemDelete,
+};
