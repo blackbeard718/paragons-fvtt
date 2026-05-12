@@ -28,13 +28,13 @@
 /* ── Tabs ─────────────────────────────────── */
 .paragons-sheet .sheet-tabs { display: flex; background: var(--paragons-blue-dark); padding: 0 36px; }
 .paragons-sheet .sheet-tabs .item { padding: 6px 18px; font-family: var(--font-header); font-size: 14px; letter-spacing: 1px; color: var(--paragons-blue-pale); cursor: pointer; border-bottom: 3px solid transparent; text-transform: uppercase; text-decoration: none; }
-.paragons-sheet .sheet-tabs .item.active, .paragons-sheet .sheet-tabs .item:hover { color: var(--paragons-white); border-bottom-color: var(--paragons-blue-light); }
+.paragons-sheet .sheet-tabs .item.active,
+.paragons-sheet .sheet-tabs .item[aria-selected="true"],
+.paragons-sheet .sheet-tabs .item:hover { color: var(--paragons-white); border-bottom-color: var(--paragons-blue-light); }
 
-/* Tab sections — only active tab visible */
-.paragons-sheet .tab { display: none; padding: 12px 16px 12px 44px; position: relative; }
-.paragons-sheet .tab.active { display: block; }
-/* V13 ApplicationV2 may use data attributes for active state */
-.paragons-sheet section[data-tab]:not([hidden]) { display: block; }
+/* Tab sections — V13 uses hidden attribute, not .active class */
+.paragons-sheet .tab { padding: 12px 16px 12px 44px; position: relative; }
+.paragons-sheet .tab[hidden] { display: none; }
 
 /* ── Form Fields ──────────────────────────── */
 .field-group { display: flex; flex-direction: column; gap: 2px; }
