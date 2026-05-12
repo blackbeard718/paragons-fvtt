@@ -102,10 +102,9 @@ Hooks.once("ready", () => {
 // ─────────────────────────────────────────────
 //  Chat card — Cool Point button
 // ─────────────────────────────────────────────
-Hooks.on("renderChatMessage", (message, html) => {
-  // V13: html is a plain DOM element, not jQuery
-  const el = html instanceof HTMLElement ? html : html[0];
-  el?.querySelectorAll(".paragons-spend-cp").forEach(btn => {
+Hooks.on("renderChatMessageHTML", (message, html) => {
+  // V13: html is a plain HTMLElement
+  html.querySelectorAll?.(".paragons-spend-cp").forEach(btn => {
     btn.addEventListener("click", onChatCardCoolPointSpend);
   });
 });
