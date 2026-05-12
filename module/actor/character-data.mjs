@@ -47,12 +47,9 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
 
       // ── Archetype ─────────────────────────────
       archetype: new StringField({
-        required: true,
-        initial: "",
-        choices: [
-          "acrobat", "brawler", "commander", "defender",
-          "facilitator", "hunter", "strategist", "striker"
-        ]
+       required: false,
+       initial: "",
+       blank: true,
       }),
 
       // ── Will (current / max tracked here; max derived) ───────────────────
