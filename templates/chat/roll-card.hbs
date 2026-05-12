@@ -1,92 +1,159 @@
-{{!-- templates/chat/roll-card.hbs --}}
-{{!-- Paragons dice pool result card --}}
+/**
+ * paragons.mjs — Main entry point for Paragons: The Roleplaying Game
+ * Loaded via esmodules in system.json
+ */
 
-<div class="paragons-roll-card {{#if isFailure}}failure{{else}}success{{/if}}"
-     data-actor-id="{{actorId}}">
+import { CharacterData } from "./actor/character-data.mjs";
+import { NpcData }        from "./actor/npc-data.mjs";
+import { AbilityData, TalentData, GearData } from "./item/item-data.mjs";
+import { ParagonsRoll, ParagonsRollDialog, onChatCardCoolPointSpend } from "./dice.mjs";
+import { rollStat, rollAttack, rollResist, rollDeath, rollInitiative, rollMove, rollNpcAttack } from "./roll-helpers.mjs";
+import { ParagonsCharacterSheet } from "./sheets/character-sheet.mjs";
+import { ParagonsNpcSheet }       from "./sheets/npc-sheet.mjs";
+import { ParagonsItemSheet }      from "./sheets/item-sheet.mjs";
 
-  {{!-- Header --}}
-  <div class="roll-card-header">
-    <span class="roll-card-label">{{label}}</span>
-    {{#if flavor}}
-      <p class="roll-card-flavor">{{flavor}}</p>
-    {{/if}}
-    {{#if isDeathRoll}}
-      <span class="roll-tag death-roll">Death Roll</span>
-    {{/if}}
-    {{#if (compare rollType "eq" "attack")}}
-      <span class="roll-tag attack-roll">Attack</span>
-    {{/if}}
-    {{#if (compare rollType "eq" "resist")}}
-      <span class="roll-tag resist-roll">Resist</span>
-    {{/if}}
-  </div>
+// Expose roll API globally so sheet classes and macros can reach it
+globalThis.ParagonsRoll       = ParagonsRoll;
+globalThis.ParagonsRollDialog = ParagonsRollDialog;
 
-  {{!-- Die Results --}}
-  <div class="roll-card-dice">
-    {{#each results}}
-      <div class="die-result {{#if isCritical}}critical{{else if isSuccess}}success{{else}}failure{{/if}}"
-           title="{{#if isCritical}}Critical — 2 successes{{else if isSuccess}}Success{{else}}Failure{{/if}}">
-        <span class="die-face">{{value}}</span>
-        {{#if isCritical}}
-          <span class="die-badge">★★</span>
-        {{else if isSuccess}}
-          <span class="die-badge">★</span>
-        {{/if}}
-      </div>
-    {{/each}}
-  </div>
+// ─────────────────────────────────────────────
+//  init hook — runs before anything is rendered
+// ─────────────────────────────────────────────
+Hooks.once("init", () => {
+  console.log("Paragons | Initialising system");
 
-  {{!-- Pool Breakdown --}}
-  <div class="roll-card-breakdown">
-    <span class="breakdown-label">Pool:</span>
-    <span class="breakdown-detail">{{breakdown}}</span>
-  </div>
+  // ── World Settings ─────────────────────────
+  game.settings.register("paragons", "storyPoints", {
+    name:    "Story Points",
+    hint:    "GM Story Point pool. Resets each episode.",
+    scope:   "world",
+    config:  true,
+    type:    Number,
+    default: 0,
+  });
 
-  {{!-- Result --}}
-  <div class="roll-card-result {{#if isFailure}}result-failure{{else}}result-success{{/if}}">
-    {{#if isFailure}}
-      <i class="fas fa-times-circle"></i>
-      <span>Failure</span>
-    {{else}}
-      <i class="fas fa-check-circle"></i>
-      <span>{{successLabel}}</span>
-    {{/if}}
-    {{#if coolPointSpent}}
-      <span class="cp-spent-badge" title="Cool Point spent for +1 success">
-        <i class="fas fa-star"></i> CP
-      </span>
-    {{/if}}
-  </div>
+  game.settings.register("paragons", "showDiceBreakdown", {
+    name:    "Show Dice Breakdown in Chat",
+    hint:    "Display individual die results on roll cards.",
+    scope:   "client",
+    config:  true,
+    type:    Boolean,
+    default: true,
+  });
 
-  {{!-- Attack damage hint --}}
-  {{#if (compare rollType "eq" "attack")}}
-    {{#if isSuccess}}
-      <div class="roll-card-damage-hint">
-        Deals <strong>{{totalSuccesses}}</strong>
-        {{#if (compare totalSuccesses "eq" 1)}}damage{{else}}damage{{/if}}
-        — target may spend Resist to mitigate.
-      </div>
-    {{/if}}
-  {{/if}}
+  // ── Register Actor data models ─────────────
+  CONFIG.Actor.dataModels = {
+    character: CharacterData,
+    npc:       NpcData,
+  };
 
-  {{!-- Cool Point spend button --}}
-  {{#if canSpendCP}}
-    <div class="roll-card-actions">
-      <button class="paragons-spend-cp" type="button">
-        <i class="fas fa-star"></i>
-        Spend Cool Point (+1 success)
-        <span class="cp-hint">GM gains 1 Story Point</span>
-      </button>
-    </div>
-  {{/if}}
+  // ── Register Item data models ──────────────
+  CONFIG.Item.dataModels = {
+    ability: AbilityData,
+    talent:  TalentData,
+    gear:    GearData,
+  };
 
-  {{!-- Already spent notice --}}
-  {{#if coolPointSpent}}
-    <div class="roll-card-actions">
-      <p class="cp-spent-notice">
-        <i class="fas fa-star"></i> Cool Point spent — +1 success applied.
-      </p>
-    </div>
-  {{/if}}
+  // ── Token bar attributes ───────────────────
+  // Will and Resist are the two primary trackable bars.
+  CONFIG.Actor.trackableAttributes = {
+    character: {
+      bar:   ["will", "resist", "coolPoints"],
+      value: [],
+    },
+    npc: {
+      bar:   ["will", "resist"],
+      value: ["powerRating"],
+    },
+  };
 
-</div>
+  // ── Register Actor sheet classes ───────────
+  // ── Actor Sheets ──────────────────────────
+  Actors.unregisterSheet("core", ActorSheet);
+  Actors.registerSheet("paragons", ParagonsCharacterSheet, {
+    types: ["character"], makeDefault: true, label: "Paragons Character Sheet"
+  });
+  Actors.registerSheet("paragons", ParagonsNpcSheet, {
+    types: ["npc"], makeDefault: true, label: "Paragons NPC Sheet"
+  });
+
+  // ── Item Sheets ───────────────────────────
+  Items.unregisterSheet("core", ItemSheet);
+  Items.registerSheet("paragons", ParagonsItemSheet, {
+    types: ["ability", "talent", "gear"],
+    makeDefault: true,
+    label: "Paragons Item Sheet"
+  });
+
+  // ── Register Item sheet classes ────────────
+
+
+  // ── Handlebars helpers ─────────────────────
+  _registerHandlebarsHelpers();
+
+  console.log("Paragons | Init complete");
+});
+
+// ─────────────────────────────────────────────
+//  ready hook — runs after the world is loaded
+// ─────────────────────────────────────────────
+Hooks.once("ready", () => {
+  console.log("Paragons | System ready");
+});
+
+// ─────────────────────────────────────────────
+//  Chat card interactivity
+// ─────────────────────────────────────────────
+Hooks.on("renderChatMessage", (message, html) => {
+  // Wire up the Cool Point spend button on roll cards
+  html.find(".paragons-spend-cp").on("click", onChatCardCoolPointSpend);
+});
+
+// ─────────────────────────────────────────────
+//  Handlebars helpers
+// ─────────────────────────────────────────────
+function _registerHandlebarsHelpers() {
+
+  // Render a pool of d6 icons — useful for dice pool display
+  Handlebars.registerHelper("dicePool", (count) => {
+    return new Handlebars.SafeString(
+      Array.from({ length: count }, () => `<i class="fas fa-dice-d6"></i>`).join("")
+    );
+  });
+
+  // Capitalise first letter
+  Handlebars.registerHelper("capitalize", (str) => {
+    if (typeof str !== "string") return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  });
+
+  // Repeat a block N times (useful for reputation pip rendering)
+  Handlebars.registerHelper("times", function(n, options) {
+    let result = "";
+    for (let i = 0; i < n; i++) result += options.fn(i);
+    return result;
+  });
+
+  // Simple equality check — used as subexpression: {{#if (eq a b)}}
+  Handlebars.registerHelper("eq",  (a, b) => a == b);
+  Handlebars.registerHelper("neq", (a, b) => a != b);
+  Handlebars.registerHelper("lt",  (a, b) => a <  b);
+  Handlebars.registerHelper("gt",  (a, b) => a >  b);
+  Handlebars.registerHelper("lte", (a, b) => a <= b);
+  Handlebars.registerHelper("gte", (a, b) => a >= b);
+
+  // Return the archetype stat boost labels
+  Handlebars.registerHelper("archetypeBoosts", (archetype) => {
+    const boosts = {
+      acrobat:     "+1 Finesse, +1 Presence",
+      brawler:     "+1 Physique, +1 Stamina",
+      commander:   "+1 Presence, +1 Physique",
+      defender:    "+1 Acuity, +1 Stamina",
+      facilitator: "+1 Stamina, +1 Presence",
+      hunter:      "+1 Finesse, +1 Acuity",
+      strategist:  "+1 Acuity, +1 Presence",
+      striker:     "+1 Physique, +1 Finesse",
+    };
+    return boosts[archetype] ?? "—";
+  });
+}
