@@ -4,18 +4,18 @@
 <form class="paragons-sheet npc-sheet" autocomplete="off">
 
   <nav class="sheet-tabs">
-    <a class="tab-btn {{#if (compare activeTab "eq" "main")}}active{{/if}}"
+    <a class="tab-btn {{#if (eq activeTab "main")}}active{{/if}}"
        data-tab="main">Stat Block</a>
-    <a class="tab-btn {{#if (compare activeTab "eq" "abilities")}}active{{/if}}"
+    <a class="tab-btn {{#if (eq activeTab "abilities")}}active{{/if}}"
        data-tab="abilities">Abilities &amp; Gear</a>
-    <a class="tab-btn {{#if (compare activeTab "eq" "notes")}}active{{/if}}"
+    <a class="tab-btn {{#if (eq activeTab "notes")}}active{{/if}}"
        data-tab="notes">Notes &amp; Traits</a>
   </nav>
 
   {{!-- ═══════════════════════════════════════════ --}}
   {{!-- TAB: MAIN STAT BLOCK                        --}}
   {{!-- ═══════════════════════════════════════════ --}}
-  <section class="tab-content {{#if (compare activeTab "eq" "main")}}active{{/if}}"
+  <section class="tab-content {{#if (eq activeTab "main")}}active{{/if}}"
            data-tab="main">
 
     <div class="sidebar-accent"></div>
@@ -165,7 +165,7 @@
             <select name="system.attackMoves.{{@index}}.stat">
               {{#each ../statChoices}}
                 <option value="{{value}}"
-                  {{#if (compare value ../stat)}}selected{{/if}}>{{label}}</option>
+                  {{#if (eq value ../stat)}}selected{{/if}}>{{label}}</option>
               {{/each}}
             </select>
           </div>
@@ -180,10 +180,10 @@
 
           <div class="attack-range">
             <select name="system.attackMoves.{{@index}}.range">
-              <option value="close"   {{#if (compare range "eq" "close")}}selected{{/if}}>Close</option>
-              <option value="near"    {{#if (compare range "eq" "near")}}selected{{/if}}>Near</option>
-              <option value="far"     {{#if (compare range "eq" "far")}}selected{{/if}}>Far</option>
-              <option value="distant" {{#if (compare range "eq" "distant")}}selected{{/if}}>Distant</option>
+              <option value="close"   {{#if (eq range "close")}}selected{{/if}}>Close</option>
+              <option value="near"    {{#if (eq range "near")}}selected{{/if}}>Near</option>
+              <option value="far"     {{#if (eq range "far")}}selected{{/if}}>Far</option>
+              <option value="distant" {{#if (eq range "distant")}}selected{{/if}}>Distant</option>
             </select>
           </div>
 
@@ -210,7 +210,7 @@
   {{!-- ═══════════════════════════════════════════ --}}
   {{!-- TAB: ABILITIES & GEAR                       --}}
   {{!-- ═══════════════════════════════════════════ --}}
-  <section class="tab-content {{#if (compare activeTab "eq" "abilities")}}active{{/if}}"
+  <section class="tab-content {{#if (eq activeTab "abilities")}}active{{/if}}"
            data-tab="abilities">
 
     <div class="sidebar-accent"></div>
@@ -282,7 +282,7 @@
   {{!-- ═══════════════════════════════════════════ --}}
   {{!-- TAB: NOTES & TRAITS                         --}}
   {{!-- ═══════════════════════════════════════════ --}}
-  <section class="tab-content {{#if (compare activeTab "eq" "notes")}}active{{/if}}"
+  <section class="tab-content {{#if (eq activeTab "notes")}}active{{/if}}"
            data-tab="notes">
 
     <div class="sidebar-accent"></div>
