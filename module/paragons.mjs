@@ -136,8 +136,8 @@ function _registerHandlebarsHelpers() {
 
   // Compare two values (eq, neq, lt, gt, lte, gte)
   Handlebars.registerHelper("compare", function(a, op, b, options) {
-    const ops = { eq: a == b, neq: a != b, lt: a < b, gt: a > b, lte: a <= b, gte: a >= b };
-    return ops[op] ? options.fn(this) : options.inverse(this);
+   const ops = { eq: a == b, neq: a != b, lt: a < b, gt: a > b, lte: a <= b, gte: a >= b };
+   return ops[op] ? options.fn(this) : options.inverse(this);
   });
 
   // Return the archetype stat boost labels
