@@ -21,40 +21,32 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     },
   };
 
-  // Actions defined after class body to avoid private field init order issues
-  static _actions = {
-    rollStat:        ParagonsCharacterSheet._rollStat,
-    rollMove:        ParagonsCharacterSheet._rollMove,
-    rollDeath:       ParagonsCharacterSheet._rollDeath,
-    itemCreate:      ParagonsCharacterSheet._itemCreate,
-    itemEdit:        ParagonsCharacterSheet._itemEdit,
-    itemDelete:      ParagonsCharacterSheet._itemDelete,
-    itemEquipToggle: ParagonsCharacterSheet._itemEquipToggle,
-    useAbility:      ParagonsCharacterSheet._useAbility,
-    repTierSet:      ParagonsCharacterSheet._repTierSet,
-  };
-
-  static TABS = {
-    sheet: {
-      tabs: [
-        { id: "play",    group: "sheet", label: "Play Sheet"      },
-        { id: "concept", group: "sheet", label: "Concept & Moves" },
-      ],
-      initial: "play",
-    },
-  };
-
   static PARTS = {
+    header: {
+      id:       "header",
+      template: "systems/paragons/templates/actor/character-header.hbs",
+    },
     tabs: {
+      id:       "tabs",
       template: "systems/paragons/templates/actor/character-tabs.hbs",
     },
     play: {
+      id:         "play",
       template:   "systems/paragons/templates/actor/character-play.hbs",
       scrollable: [".abilities-list", ".talents-list", ".gear-list"],
     },
     concept: {
+      id:         "concept",
       template:   "systems/paragons/templates/actor/character-concept.hbs",
       scrollable: [".concept-column"],
+    },
+  };
+
+  static TABS = {
+    primary: {
+      tabs:    [{ id: "play" }, { id: "concept" }],
+      initial: "play",
+      labelPrefix: "PARAGONS.Tabs",
     },
   };
 
@@ -108,32 +100,105 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     return context;
   }
 
-  // ── Render ───────────────────────────────────
+  // ── Part Listeners (V13 pattern) ─────────────
 
-  _onRender(context, options) {
-    super._onRender(context, options);
-    // Mark item rows as draggable for ActorSheetV2 built-in handling
-    this.element.querySelectorAll(".item-row[data-item-id]").forEach(el => {
-      el.setAttribute("draggable", "true");
+  _attachPartListeners(partId, htmlElement, options) {
+    super._attachPartListeners(partId, htmlElement, options);
+
+    switch (partId) {
+      case "play":
+        this._attachPlayListeners(htmlElement);
+        break;
+      case "concept":
+        this._attachConceptListeners(htmlElement);
+        break;
+    }
+  }
+
+  _attachPlayListeners(html) {
+    // Stat clicks → roll (skip if clicking the input itself)
+    html.querySelectorAll(".stat-block").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        if (event.target.tagName === "INPUT") return;
+        await rollStat(this.actor, el.dataset.stat, event);
+      });
+    });
+
+    // Item create
+    html.querySelectorAll("[data-action='itemCreate']").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.preventDefault();
+        await this._onItemCreate(el.dataset.type);
+      });
+    });
+
+    // Item edit
+    html.querySelectorAll("[data-action='itemEdit']").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        this.actor.items.get(el.dataset.itemId)?.sheet.render({ force: true });
+      });
+    });
+
+    // Item delete
+    html.querySelectorAll("[data-action='itemDelete']").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const item = this.actor.items.get(el.dataset.itemId);
+        if (!item) return;
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+          window: { title: `Delete ${item.name}?` },
+          content: `<p>Remove <strong>${item.name}</strong>?</p>`,
+        });
+        if (confirmed) await item.delete();
+      });
+    });
+
+    // Gear equip toggle
+    html.querySelectorAll("[data-action='itemEquipToggle']").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const item = this.actor.items.get(el.dataset.itemId);
+        if (item) await item.update({ "system.equipped": !item.system.equipped });
+      });
+    });
+
+    // Use ability
+    html.querySelectorAll("[data-action='useAbility']").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const item = this.actor.items.get(el.dataset.itemId);
+        if (!item?.system.hasUses) return;
+        if (item.system.isExhausted) { ui.notifications.warn(`${item.name} has no uses remaining.`); return; }
+        await item.update({ "system.uses.current": item.system.uses.current - 1 });
+      });
+    });
+
+    // Reputation tier
+    html.querySelectorAll(".rep-tier").forEach(el => {
+      el.addEventListener("click", async () => {
+        await this.actor.update({ "system.reputation.tier": parseInt(el.dataset.tier) });
+      });
     });
   }
 
-  // ── Actions ──────────────────────────────────
-
-  static async _rollStat(event, target) {
-    await rollStat(this.actor, target.dataset.stat, event);
+  _attachConceptListeners(html) {
+    // Move roll buttons
+    html.querySelectorAll(".move-roll-btn").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.preventDefault();
+        await rollMove(this.actor, {
+          statKey: el.dataset.stat,
+          label:   el.dataset.label,
+          event,
+        });
+      });
+    });
   }
 
-  static async _rollMove(event, target) {
-    await rollMove(this.actor, { statKey: target.dataset.stat, label: target.dataset.label, event });
-  }
+  // ── Item Create Helper ────────────────────────
 
-  static async _rollDeath(event, _target) {
-    await rollDeath(this.actor, event);
-  }
-
-  static async _itemCreate(_event, target) {
-    const type = target.dataset.type;
+  async _onItemCreate(type) {
     const defaults = {
       ability: { name: "New Ability", type: "ability", system: { abilityLevel: 1 } },
       talent:  { name: "New Talent",  type: "talent",  system: { archetype: this.actor.system.archetype || "", talentLevel: 1 } },
@@ -144,37 +209,11 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     const [item] = await this.actor.createEmbeddedDocuments("Item", [data]);
     item?.sheet.render({ force: true });
   }
-
-  static async _itemEdit(_event, target) {
-    this.actor.items.get(target.dataset.itemId)?.sheet.render({ force: true });
-  }
-
-  static async _itemDelete(_event, target) {
-    const item = this.actor.items.get(target.dataset.itemId);
-    if (!item) return;
-    const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: `Delete ${item.name}?` },
-      content: `<p>Remove <strong>${item.name}</strong>?</p>`,
-    });
-    if (confirmed) await item.delete();
-  }
-
-  static async _itemEquipToggle(_event, target) {
-    const item = this.actor.items.get(target.dataset.itemId);
-    if (item) await item.update({ "system.equipped": !item.system.equipped });
-  }
-
-  static async _useAbility(_event, target) {
-    const item = this.actor.items.get(target.dataset.itemId);
-    if (!item?.system.hasUses) return;
-    if (item.system.isExhausted) { ui.notifications.warn(`${item.name} has no uses remaining.`); return; }
-    await item.update({ "system.uses.current": item.system.uses.current - 1 });
-  }
-
-  static async _repTierSet(_event, target) {
-    await this.actor.update({ "system.reputation.tier": parseInt(target.dataset.tier) });
-  }
 }
+
+// ── Add lang keys for tabs ────────────────────
+// V13 labelPrefix + tab id = localization key
+// PARAGONS.Tabs.play, PARAGONS.Tabs.concept
 
 function _buildMovesData() {
   return [
@@ -194,6 +233,3 @@ function _buildMovesData() {
     { key: "useAbility", name: "Use an Ability",    description: "No roll required unless the ability calls for one.", rollable: false },
   ];
 }
-
-// Merge actions into DEFAULT_OPTIONS after class is fully defined
-ParagonsCharacterSheet.DEFAULT_OPTIONS.actions = ParagonsCharacterSheet._actions;
