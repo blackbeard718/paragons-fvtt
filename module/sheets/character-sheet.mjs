@@ -101,7 +101,14 @@ export class ParagonsCharacterSheet extends ActorSheet {
     super.activateListeners(html);
 
     // ── Stat rolls (click any stat block) ─────
+    // Stop input clicks from bubbling up to the roll handler
+    html.find(".stat-block input").on("click", (event) => {
+      event.stopPropagation();
+    });
+
     html.find(".stat-block").on("click", async (event) => {
+      // Only roll if the click was directly on the block, not on the input
+      if (event.target.tagName === "INPUT") return;
       const statKey = event.currentTarget.dataset.stat;
       await rollStat(this.actor, statKey, event);
     });
