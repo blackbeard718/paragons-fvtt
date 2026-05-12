@@ -195,6 +195,13 @@ export class ParagonsCharacterSheet extends ActorSheet {
   }
 
   // ─────────────────────────────────────────────
+  //  Form submission — persist all field changes
+  // ─────────────────────────────────────────────
+  async _updateObject(event, formData) {
+    return this.actor.update(formData);
+  }
+
+  // ─────────────────────────────────────────────
   //  Drag & Drop
   // ─────────────────────────────────────────────
   _onDragStart(event) {
