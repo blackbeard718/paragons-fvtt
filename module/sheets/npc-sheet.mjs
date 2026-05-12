@@ -156,6 +156,13 @@ export class ParagonsNpcSheet extends ActorSheet {
   }
 
   // ─────────────────────────────────────────────
+  //  Form submission — persist all field changes
+  // ─────────────────────────────────────────────
+  async _updateObject(event, formData) {
+    return this.actor.update(formData);
+  }
+
+  // ─────────────────────────────────────────────
   //  _onItemCreate
   // ─────────────────────────────────────────────
   async _onItemCreate(type) {
