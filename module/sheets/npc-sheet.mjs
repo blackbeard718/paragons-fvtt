@@ -19,34 +19,34 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
       submitOnChange: true,
       closeOnSubmit:  false,
     },
-
-  };
-
-  static TABS = {
-    sheet: {
-      tabs: [
-        { id: "main",      group: "sheet", label: "Stat Block"       },
-        { id: "abilities", group: "sheet", label: "Abilities & Gear"  },
-        { id: "notes",     group: "sheet", label: "Notes & Traits"    },
-      ],
-      initial: "main",
-    },
   };
 
   static PARTS = {
     tabs: {
+      id:       "tabs",
       template: "systems/paragons/templates/actor/npc-tabs.hbs",
     },
     main: {
+      id:       "main",
       template: "systems/paragons/templates/actor/npc-main.hbs",
     },
     abilities: {
-      template: "systems/paragons/templates/actor/npc-abilities.hbs",
+      id:         "abilities",
+      template:   "systems/paragons/templates/actor/npc-abilities.hbs",
       scrollable: [".item-list"],
     },
     notes: {
-      template: "systems/paragons/templates/actor/npc-notes.hbs",
+      id:         "notes",
+      template:   "systems/paragons/templates/actor/npc-notes.hbs",
       scrollable: [".notes-column"],
+    },
+  };
+
+  static TABS = {
+    primary: {
+      tabs:    [{ id: "main" }, { id: "abilities" }, { id: "notes" }],
+      initial: "main",
+      labelPrefix: "PARAGONS.Tabs",
     },
   };
 
@@ -88,57 +88,79 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.willResistTotal   = sys.willResistTotal;
     context.willResistOverCap = sys.willResistTotal > sys.powerRatingGuidelines.maxWillResistTotal;
 
-    context.abilities = this.actor.items.filter(i => i.type === "ability").sort((a,b) => a.name.localeCompare(b.name));
-    context.gear      = this.actor.items.filter(i => i.type === "gear").sort((a,b) => a.name.localeCompare(b.name));
+    context.abilities     = this.actor.items.filter(i => i.type === "ability").sort((a,b) => a.name.localeCompare(b.name));
+    context.gear          = this.actor.items.filter(i => i.type === "gear").sort((a,b) => a.name.localeCompare(b.name));
     context.abilityGearTotal = context.abilities.length + context.gear.length;
 
     return context;
   }
 
-  // ── Actions ──────────────────────────────────
+  // ── Part Listeners ────────────────────────────
 
-  static async _rollAttack(_event, target) {
-    const index = parseInt(target.dataset.index);
-    const move  = this.actor.system.attackMoves[index];
-    if (move) await rollNpcAttack(this.actor, move, _event);
+  _attachPartListeners(partId, htmlElement, options) {
+    super._attachPartListeners(partId, htmlElement, options);
+
+    if (partId === "main")      this._attachMainListeners(htmlElement);
+    if (partId === "abilities") this._attachAbilityListeners(htmlElement);
   }
 
-  static async _addAttack() {
-    const moves = foundry.utils.deepClone(this.actor.system.attackMoves ?? []);
-    moves.push({ label: "New Attack", stat: "physique", dicePool: 4, range: "near", description: "" });
-    await this.actor.update({ "system.attackMoves": moves });
-  }
-
-  static async _deleteAttack(_event, target) {
-    const moves = foundry.utils.deepClone(this.actor.system.attackMoves ?? []);
-    moves.splice(parseInt(target.dataset.index), 1);
-    await this.actor.update({ "system.attackMoves": moves });
-  }
-
-  static async _itemCreate(_event, target) {
-    const type = target.dataset.type;
-    const defaults = {
-      ability: { name: "New Ability", type: "ability", system: { abilityLevel: 1 } },
-      gear:    { name: "New Gear",    type: "gear",    system: { gearDice: 2 } },
-    };
-    const data = defaults[type];
-    if (!data) return;
-    const [item] = await this.actor.createEmbeddedDocuments("Item", [data]);
-    item?.sheet.render({ force: true });
-  }
-
-  static async _itemEdit(_event, target) {
-    this.actor.items.get(target.dataset.itemId)?.sheet.render({ force: true });
-  }
-
-  static async _itemDelete(_event, target) {
-    const item = this.actor.items.get(target.dataset.itemId);
-    if (!item) return;
-    const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: `Delete ${item.name}?` },
-      content: `<p>Remove <strong>${item.name}</strong>?</p>`,
+  _attachMainListeners(html) {
+    html.querySelectorAll(".roll-attack-btn").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        const move = this.actor.system.attackMoves[parseInt(el.dataset.index)];
+        if (move) await rollNpcAttack(this.actor, move, event);
+      });
     });
-    if (confirmed) await item.delete();
+
+    html.querySelector(".add-attack-btn")?.addEventListener("click", async () => {
+      const moves = foundry.utils.deepClone(this.actor.system.attackMoves ?? []);
+      moves.push({ label: "New Attack", stat: "physique", dicePool: 4, range: "near", description: "" });
+      await this.actor.update({ "system.attackMoves": moves });
+    });
+
+    html.querySelectorAll(".delete-attack-btn").forEach(el => {
+      el.addEventListener("click", async () => {
+        const moves = foundry.utils.deepClone(this.actor.system.attackMoves ?? []);
+        moves.splice(parseInt(el.dataset.index), 1);
+        await this.actor.update({ "system.attackMoves": moves });
+      });
+    });
+  }
+
+  _attachAbilityListeners(html) {
+    html.querySelectorAll("[data-action='itemCreate']").forEach(el => {
+      el.addEventListener("click", async () => {
+        const type = el.dataset.type;
+        const defaults = {
+          ability: { name: "New Ability", type: "ability", system: { abilityLevel: 1 } },
+          gear:    { name: "New Gear",    type: "gear",    system: { gearDice: 2 } },
+        };
+        const data = defaults[type];
+        if (!data) return;
+        const [item] = await this.actor.createEmbeddedDocuments("Item", [data]);
+        item?.sheet.render({ force: true });
+      });
+    });
+
+    html.querySelectorAll("[data-action='itemEdit']").forEach(el => {
+      el.addEventListener("click", (event) => {
+        event.stopPropagation();
+        this.actor.items.get(el.dataset.itemId)?.sheet.render({ force: true });
+      });
+    });
+
+    html.querySelectorAll("[data-action='itemDelete']").forEach(el => {
+      el.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        const item = this.actor.items.get(el.dataset.itemId);
+        if (!item) return;
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+          window: { title: `Delete ${item.name}?` },
+          content: `<p>Remove <strong>${item.name}</strong>?</p>`,
+        });
+        if (confirmed) await item.delete();
+      });
+    });
   }
 }
 
@@ -149,13 +171,3 @@ function _prLabel(pr) {
     "Level 6 equivalent", "Above any individual paragon",
   ][pr] ?? "Unknown";
 }
-
-// Merge actions into DEFAULT_OPTIONS after class is fully defined
-ParagonsNpcSheet.DEFAULT_OPTIONS.actions = {
-  rollAttack:   ParagonsNpcSheet._rollAttack,
-  addAttack:    ParagonsNpcSheet._addAttack,
-  deleteAttack: ParagonsNpcSheet._deleteAttack,
-  itemCreate:   ParagonsNpcSheet._itemCreate,
-  itemEdit:     ParagonsNpcSheet._itemEdit,
-  itemDelete:   ParagonsNpcSheet._itemDelete,
-};
