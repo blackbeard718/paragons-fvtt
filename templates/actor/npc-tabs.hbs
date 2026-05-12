@@ -1,0 +1,6 @@
+{{!-- npc-tabs.hbs --}}
+<nav class="sheet-tabs tabs" data-group="sheet">
+  {{#each tabs.sheet.tabs}}
+  <a class="item {{cssClass}}" data-tab="{{id}}" data-group="{{group}}">{{label}}</a>
+  {{/each}}
+</nav>
