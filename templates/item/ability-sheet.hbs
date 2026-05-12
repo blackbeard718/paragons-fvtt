@@ -9,9 +9,9 @@
         <div class="field-group">
           <label class="field-label">Level</label>
           <select name="system.abilityLevel">
-            <option value="1" {{#if (compare system.abilityLevel "eq" 1)}}selected{{/if}}>Level 1</option>
-            <option value="3" {{#if (compare system.abilityLevel "eq" 3)}}selected{{/if}}>Level 3</option>
-            <option value="6" {{#if (compare system.abilityLevel "eq" 6)}}selected{{/if}}>Level 6</option>
+            <option value="1" {{#if (eq system.abilityLevel 1)}}selected{{/if}}>Level 1</option>
+            <option value="3" {{#if (eq system.abilityLevel 3)}}selected{{/if}}>Level 3</option>
+            <option value="6" {{#if (eq system.abilityLevel 6)}}selected{{/if}}>Level 6</option>
           </select>
         </div>
         <div class="field-group">
@@ -58,15 +58,15 @@
         <div class="field-group">
           <label class="field-label">Roll Type</label>
           <select name="system.diceBonus.rollType">
-            <option value="none"       {{#if (compare system.diceBonus.rollType "eq" "none")}}selected{{/if}}>None</option>
-            <option value="any"        {{#if (compare system.diceBonus.rollType "eq" "any")}}selected{{/if}}>Any roll</option>
-            <option value="attack"     {{#if (compare system.diceBonus.rollType "eq" "attack")}}selected{{/if}}>Any attack</option>
-            <option value="melee"      {{#if (compare system.diceBonus.rollType "eq" "melee")}}selected{{/if}}>Melee attack</option>
-            <option value="ranged"     {{#if (compare system.diceBonus.rollType "eq" "ranged")}}selected{{/if}}>Ranged attack</option>
-            <option value="hide"       {{#if (compare system.diceBonus.rollType "eq" "hide")}}selected{{/if}}>Hide move</option>
-            <option value="manipulate" {{#if (compare system.diceBonus.rollType "eq" "manipulate")}}selected{{/if}}>Manipulate move</option>
-            <option value="observe"    {{#if (compare system.diceBonus.rollType "eq" "observe")}}selected{{/if}}>Observe move</option>
-            <option value="specific"   {{#if (compare system.diceBonus.rollType "eq" "specific")}}selected{{/if}}>Specific (see condition)</option>
+            <option value="none"       {{#if (eq system.diceBonus.rollType "none")}}selected{{/if}}>None</option>
+            <option value="any"        {{#if (eq system.diceBonus.rollType "any")}}selected{{/if}}>Any roll</option>
+            <option value="attack"     {{#if (eq system.diceBonus.rollType "attack")}}selected{{/if}}>Any attack</option>
+            <option value="melee"      {{#if (eq system.diceBonus.rollType "melee")}}selected{{/if}}>Melee attack</option>
+            <option value="ranged"     {{#if (eq system.diceBonus.rollType "ranged")}}selected{{/if}}>Ranged attack</option>
+            <option value="hide"       {{#if (eq system.diceBonus.rollType "hide")}}selected{{/if}}>Hide move</option>
+            <option value="manipulate" {{#if (eq system.diceBonus.rollType "manipulate")}}selected{{/if}}>Manipulate move</option>
+            <option value="observe"    {{#if (eq system.diceBonus.rollType "observe")}}selected{{/if}}>Observe move</option>
+            <option value="specific"   {{#if (eq system.diceBonus.rollType "specific")}}selected{{/if}}>Specific (see condition)</option>
           </select>
         </div>
         <div class="field-group wide">
@@ -160,11 +160,11 @@
         <div class="field-group">
           <label class="field-label">Resets Per</label>
           <select name="system.uses.per">
-            <option value="unlimited" {{#if (compare system.uses.per "eq" "unlimited")}}selected{{/if}}>Unlimited</option>
-            <option value="episode"   {{#if (compare system.uses.per "eq" "episode")}}selected{{/if}}>Episode</option>
-            <option value="scene"     {{#if (compare system.uses.per "eq" "scene")}}selected{{/if}}>Scene</option>
-            <option value="turn"      {{#if (compare system.uses.per "eq" "turn")}}selected{{/if}}>Turn</option>
-            <option value="day"       {{#if (compare system.uses.per "eq" "day")}}selected{{/if}}>Day</option>
+            <option value="unlimited" {{#if (eq system.uses.per "unlimited")}}selected{{/if}}>Unlimited</option>
+            <option value="episode"   {{#if (eq system.uses.per "episode")}}selected{{/if}}>Episode</option>
+            <option value="scene"     {{#if (eq system.uses.per "scene")}}selected{{/if}}>Scene</option>
+            <option value="turn"      {{#if (eq system.uses.per "turn")}}selected{{/if}}>Turn</option>
+            <option value="day"       {{#if (eq system.uses.per "day")}}selected{{/if}}>Day</option>
           </select>
         </div>
         <div class="field-group">
