@@ -47,7 +47,9 @@ export class ParagonsItemSheet extends ItemSheet {
 
   activateListeners(html) {
     super.activateListeners(html);
-    // Item sheets are simple forms — no custom listeners needed beyond
-    // the default Foundry form submission handling.
+  }
+
+  async _updateObject(event, formData) {
+    return this.item.update(formData);
   }
 }
