@@ -14,6 +14,7 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     classes: ["paragons", "sheet", "actor", "character"],
     position: { width: 740, height: 860 },
     window:   { resizable: true },
+    tag: "form",
     form: {
       submitOnChange: true,
       closeOnSubmit:  false,
@@ -101,7 +102,7 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
       current: index === sys.reputation.tier,
       active:  index <= sys.reputation.tier,
     }));
-    context.reputationThreshold = sys.reputationThresholds;
+    context.reputationThreshold = sys.reputationThresholds ?? { featsNeeded: null, failuresNeeded: null };
     context.moves = _buildMovesData();
 
     return context;
