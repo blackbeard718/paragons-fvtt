@@ -1,348 +1,193 @@
 /**
  * sheets/character-sheet.mjs
- * Paragons Character Sheet — ActorSheet subclass
+ * Paragons Character Sheet — ActorSheetV2 (Foundry V13)
  */
 
-import {
-  rollStat, rollAttack, rollResist,
-  rollDeath, rollMove
-} from "../roll-helpers.mjs";
+import { rollStat, rollMove, rollDeath } from "../roll-helpers.mjs";
 
-export class ParagonsCharacterSheet extends ActorSheet {
+const { HandlebarsApplicationMixin } = foundry.applications.api;
+const { ActorSheetV2 }               = foundry.applications.sheets;
 
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes:        ["paragons", "sheet", "actor", "character"],
-      template:       "systems/paragons/templates/actor/character-sheet.hbs",
-      width:          740,
-      height:         860,
+export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+
+  static DEFAULT_OPTIONS = {
+    classes: ["paragons", "sheet", "actor", "character"],
+    position: { width: 740, height: 860 },
+    window:   { resizable: true },
+    form: {
       submitOnChange: true,
       closeOnSubmit:  false,
-      tabs: [{
-        navSelector:     ".sheet-tabs",
-        contentSelector: ".tab-content",
-        initial:         "play",
-      }],
-      dragDrop: [{ dragSelector: ".item-row", dropSelector: ".sheet" }],
-    });
-  }
+    },
+    actions: {
+      rollStat:        ParagonsCharacterSheet.#rollStat,
+      rollMove:        ParagonsCharacterSheet.#rollMove,
+      rollDeath:       ParagonsCharacterSheet.#rollDeath,
+      itemCreate:      ParagonsCharacterSheet.#itemCreate,
+      itemEdit:        ParagonsCharacterSheet.#itemEdit,
+      itemDelete:      ParagonsCharacterSheet.#itemDelete,
+      itemEquipToggle: ParagonsCharacterSheet.#itemEquipToggle,
+      useAbility:      ParagonsCharacterSheet.#useAbility,
+      repTierSet:      ParagonsCharacterSheet.#repTierSet,
+    },
+  };
 
-  // ─────────────────────────────────────────────
-  //  getData — builds template context
-  // ─────────────────────────────────────────────
-  async getData(options = {}) {
-    const context = await super.getData(options);
-    const actorData = context.data;
-    context.system = actorData.system;
-    context.flags  = actorData.flags;
-    const system   = context.system;
+  static TABS = {
+    sheet: {
+      tabs: [
+        { id: "play",    group: "sheet", label: "Play Sheet"      },
+        { id: "concept", group: "sheet", label: "Concept & Moves" },
+      ],
+      initial: "play",
+    },
+  };
 
-    // ── Stats array for template iteration ────
+  static PARTS = {
+    tabs: {
+      template: "systems/paragons/templates/actor/character-tabs.hbs",
+    },
+    play: {
+      template:   "systems/paragons/templates/actor/character-play.hbs",
+      scrollable: [".abilities-list", ".talents-list", ".gear-list"],
+    },
+    concept: {
+      template:   "systems/paragons/templates/actor/character-concept.hbs",
+      scrollable: [".concept-column"],
+    },
+  };
+
+  // ── Context ──────────────────────────────────
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const sys = this.actor.system;
+
+    context.actor  = this.actor;
+    context.system = sys;
+    context.flags  = this.actor.flags;
+
     context.stats = [
-      { key: "physique", label: "Physique", value: system.stats.physique },
-      { key: "finesse",  label: "Finesse",  value: system.stats.finesse  },
-      { key: "stamina",  label: "Stamina",  value: system.stats.stamina  },
-      { key: "acuity",   label: "Acuity",   value: system.stats.acuity   },
-      { key: "presence", label: "Presence", value: system.stats.presence  },
+      { key: "physique", label: "Physique", value: sys.stats.physique },
+      { key: "finesse",  label: "Finesse",  value: sys.stats.finesse  },
+      { key: "stamina",  label: "Stamina",  value: sys.stats.stamina  },
+      { key: "acuity",   label: "Acuity",   value: sys.stats.acuity   },
+      { key: "presence", label: "Presence", value: sys.stats.presence  },
     ];
 
-    // ── Archetype select options ───────────────
     context.archetypeChoices = [
       "acrobat","brawler","commander","defender",
-      "facilitator","hunter","strategist","striker"
+      "facilitator","hunter","strategist","striker",
     ].map(a => ({
-      value:    a,
-      label:    a.charAt(0).toUpperCase() + a.slice(1),
-      selected: system.archetype === a,
+      value: a, label: a.charAt(0).toUpperCase() + a.slice(1),
+      selected: sys.archetype === a,
     }));
 
-    // ── Items sorted by type ───────────────────
     context.abilities = this.actor.items
       .filter(i => i.type === "ability")
-      .sort((a, b) => a.system.abilityLevel - b.system.abilityLevel
-                   || a.name.localeCompare(b.name));
+      .sort((a,b) => a.system.abilityLevel - b.system.abilityLevel || a.name.localeCompare(b.name));
 
     context.talents = this.actor.items
       .filter(i => i.type === "talent")
-      .sort((a, b) => a.system.talentLevel - b.system.talentLevel
-                   || a.name.localeCompare(b.name));
+      .sort((a,b) => a.system.talentLevel - b.system.talentLevel || a.name.localeCompare(b.name));
 
     context.gear = this.actor.items
       .filter(i => i.type === "gear")
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a,b) => a.name.localeCompare(b.name));
 
-    // ── Reputation ────────────────────────────
     const TIER_LABELS = ["Villain","Bad","Poor","Neutral","Positive","Good","Paragon"];
-    const currentTier = system.reputation.tier;
-
     context.reputationTiers = TIER_LABELS.map((label, index) => ({
-      label,
-      index,
-      current: index === currentTier,
-      active:  index <= currentTier,
+      label, index,
+      current: index === sys.reputation.tier,
+      active:  index <= sys.reputation.tier,
     }));
-
-    context.reputationThreshold = system.reputationThresholds;
-
-    // ── Moves reference data ──────────────────
+    context.reputationThreshold = sys.reputationThresholds;
     context.moves = _buildMovesData();
-
-    // ── Active tab (for template conditional) ─
-    context.activeTab = this._tabs[0]?.active ?? "play";
 
     return context;
   }
 
-  // ─────────────────────────────────────────────
-  //  activateListeners — wire up all interactivity
-  // ─────────────────────────────────────────────
-  activateListeners(html) {
-    super.activateListeners(html);
+  // ── Render ───────────────────────────────────
 
-    // ── Stat rolls (click any stat block) ─────
-    // Stop input clicks from bubbling up to the roll handler
-    html.find(".stat-block input").on("click", (event) => {
-      event.stopPropagation();
-    });
-
-    html.find(".stat-block").on("click", async (event) => {
-      // Only roll if the click was directly on the block, not on the input
-      if (event.target.tagName === "INPUT") return;
-      const statKey = event.currentTarget.dataset.stat;
-      await rollStat(this.actor, statKey, event);
-    });
-
-    // ── Move roll buttons (Concept/Moves tab) ─
-    html.find(".move-roll-btn").on("click", async (event) => {
-      event.stopPropagation();
-      const btn   = event.currentTarget;
-      const stat  = btn.dataset.stat;
-      const label = btn.dataset.label;
-      await rollMove(this.actor, { statKey: stat, label, event });
-    });
-
-    // ── Item create ───────────────────────────
-    html.find(".item-create-btn").on("click", (event) => {
-      const type = event.currentTarget.dataset.type;
-      this._onItemCreate(type);
-    });
-
-    // ── Item edit ─────────────────────────────
-    html.find(".item-edit").on("click", (event) => {
-      event.stopPropagation();
-      const id   = event.currentTarget.dataset.itemId;
-      const item = this.actor.items.get(id);
-      item?.sheet.render(true);
-    });
-
-    // ── Item delete ───────────────────────────
-    html.find(".item-delete").on("click", async (event) => {
-      event.stopPropagation();
-      const id   = event.currentTarget.dataset.itemId;
-      const item = this.actor.items.get(id);
-      if (!item) return;
-
-      const confirm = await Dialog.confirm({
-        title:   `Delete ${item.name}?`,
-        content: `<p>Remove <strong>${item.name}</strong> from this character?</p>`,
-      });
-      if (confirm) await item.delete();
-    });
-
-    // ── Gear equip toggle ─────────────────────
-    html.find(".item-equip-toggle").on("click", async (event) => {
-      event.stopPropagation();
-      const id   = event.currentTarget.dataset.itemId;
-      const item = this.actor.items.get(id);
-      if (!item) return;
-      await item.update({ "system.equipped": !item.system.equipped });
-    });
-
-    // ── Ability use (decrement uses) ──────────
-    html.find(".use-ability-btn").on("click", async (event) => {
-      event.stopPropagation();
-      const id   = event.currentTarget.dataset.itemId;
-      const item = this.actor.items.get(id);
-      if (!item || !item.system.hasUses) return;
-
-      if (item.system.isExhausted) {
-        ui.notifications.warn(`${item.name} has no uses remaining.`);
-        return;
-      }
-      await item.update({
-        "system.uses.current": item.system.uses.current - 1
-      });
-    });
-
-    // ── Reputation tier click ─────────────────
-    html.find(".rep-tier").on("click", async (event) => {
-      const tier = parseInt(event.currentTarget.dataset.tier);
-      await this.actor.update({ "system.reputation.tier": tier });
-    });
-
-    // ── Death roll button (if visible) ────────
-    html.find(".death-roll-btn").on("click", async (event) => {
-      const { rollDeath } = await import("../roll-helpers.mjs");
-      await rollDeath(this.actor, event);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    // Mark item rows as draggable for ActorSheetV2 built-in handling
+    this.element.querySelectorAll(".item-row[data-item-id]").forEach(el => {
+      el.setAttribute("draggable", "true");
     });
   }
 
-  // ─────────────────────────────────────────────
-  //  _onItemCreate — create a blank item of type
-  // ─────────────────────────────────────────────
-  async _onItemCreate(type) {
+  // ── Actions ──────────────────────────────────
+
+  static async #rollStat(event, target) {
+    await rollStat(this.actor, target.dataset.stat, event);
+  }
+
+  static async #rollMove(event, target) {
+    await rollMove(this.actor, { statKey: target.dataset.stat, label: target.dataset.label, event });
+  }
+
+  static async #rollDeath(event, _target) {
+    await rollDeath(this.actor, event);
+  }
+
+  static async #itemCreate(_event, target) {
+    const type = target.dataset.type;
     const defaults = {
       ability: { name: "New Ability", type: "ability", system: { abilityLevel: 1 } },
-      talent:  { name: "New Talent",  type: "talent",
-                 system: { archetype: this.actor.system.archetype || "", talentLevel: 1 } },
-      gear:    { name: "New Gear",    type: "gear",   system: { gearDice: 2 } },
+      talent:  { name: "New Talent",  type: "talent",  system: { archetype: this.actor.system.archetype || "", talentLevel: 1 } },
+      gear:    { name: "New Gear",    type: "gear",    system: { gearDice: 2 } },
     };
-
     const data = defaults[type];
     if (!data) return;
-
     const [item] = await this.actor.createEmbeddedDocuments("Item", [data]);
-    item?.sheet.render(true);
+    item?.sheet.render({ force: true });
   }
 
-  // ─────────────────────────────────────────────
-  //  Form submission — persist all field changes
-  // ─────────────────────────────────────────────
-  async _updateObject(event, formData) {
-    return this.actor.update(foundry.utils.expandObject(formData));
+  static async #itemEdit(_event, target) {
+    this.actor.items.get(target.dataset.itemId)?.sheet.render({ force: true });
   }
 
-  // ─────────────────────────────────────────────
-  //  Drag & Drop
-  // ─────────────────────────────────────────────
-  _onDragStart(event) {
-    const row    = event.currentTarget;
-    const itemId = row.dataset.itemId;
-    if (!itemId) return super._onDragStart(event);
-
-    const item = this.actor.items.get(itemId);
+  static async #itemDelete(_event, target) {
+    const item = this.actor.items.get(target.dataset.itemId);
     if (!item) return;
-
-    event.dataTransfer.setData("text/plain", JSON.stringify({
-      type:   "Item",
-      uuid:   item.uuid,
-    }));
+    const confirmed = await foundry.applications.api.DialogV2.confirm({
+      window: { title: `Delete ${item.name}?` },
+      content: `<p>Remove <strong>${item.name}</strong>?</p>`,
+    });
+    if (confirmed) await item.delete();
   }
 
-  async _onDrop(event) {
-    // Let Foundry handle compendium/world item drops
-    return super._onDrop(event);
+  static async #itemEquipToggle(_event, target) {
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (item) await item.update({ "system.equipped": !item.system.equipped });
+  }
+
+  static async #useAbility(_event, target) {
+    const item = this.actor.items.get(target.dataset.itemId);
+    if (!item?.system.hasUses) return;
+    if (item.system.isExhausted) { ui.notifications.warn(`${item.name} has no uses remaining.`); return; }
+    await item.update({ "system.uses.current": item.system.uses.current - 1 });
+  }
+
+  static async #repTierSet(_event, target) {
+    await this.actor.update({ "system.reputation.tier": parseInt(target.dataset.tier) });
   }
 }
 
-// ─────────────────────────────────────────────
-//  Moves reference data
-//  Used in the Concept/Moves tab — static content.
-// ─────────────────────────────────────────────
 function _buildMovesData() {
   return [
-    {
-      key:         "aidFallen",
-      name:        "Aid the Fallen",
-      description: "Spend your turn helping someone with 0 Will and Resist. They regain 1 Will.",
-      rollable:    false,
-    },
-    {
-      key:         "attack",
-      name:        "Attack",
-      description: "Strike at your opponent using Physique (power/melee) or Finesse (ranged/precision).",
-      rollable:    true,
-      stat:        "physique",
-      statLabel:   "Physique or Finesse",
-    },
-    {
-      key:         "defend",
-      name:        "Defend",
-      description: "Make a Physique or Acuity roll. Before your next turn, ignore damage equal to successes.",
-      rollable:    true,
-      stat:        "physique",
-      statLabel:   "Physique or Acuity",
-    },
-    {
-      key:         "help",
-      name:        "Help",
-      description: "Aid an ally. When they roll on the same turn, they add 2d6 to their pool.",
-      rollable:    false,
-    },
-    {
-      key:         "hide",
-      name:        "Hide",
-      description: "Opposed move vs. Observe/Understand. Finesse to avoid detection; Presence to lie.",
-      rollable:    true,
-      stat:        "finesse",
-      statLabel:   "Finesse or Presence",
-    },
-    {
-      key:         "interact",
-      name:        "Interact",
-      description: "Lift an object, use technology, or engage surroundings. GM decides if a roll is needed.",
-      rollable:    false,
-    },
-    {
-      key:         "manipulate",
-      name:        "Manipulate",
-      description: "Make a Presence roll opposed by Resist Acuity or Presence.",
-      rollable:    true,
-      stat:        "presence",
-      statLabel:   "Presence",
-    },
-    {
-      key:         "move",
-      name:        "Move",
-      description: "Take a new position using your Movement. GM may call for a roll to pass obstacles.",
-      rollable:    false,
-    },
-    {
-      key:         "observe",
-      name:        "Observe",
-      description: "Make a Presence roll. On a success, learn something about your situation or environment.",
-      rollable:    true,
-      stat:        "presence",
-      statLabel:   "Presence",
-    },
-    {
-      key:         "persuade",
-      name:        "Persuade",
-      description: "Make a Presence roll to convince someone to listen to you.",
-      rollable:    true,
-      stat:        "presence",
-      statLabel:   "Presence",
-    },
-    {
-      key:         "recallResearch",
-      name:        "Recall / Research",
-      description: "Make an Acuity roll to recall or uncover information.",
-      rollable:    true,
-      stat:        "acuity",
-      statLabel:   "Acuity",
-    },
-    {
-      key:         "train",
-      name:        "Train",
-      description: "Montage scenes only. Make a Stamina roll to accumulate successes toward improving an ability.",
-      rollable:    true,
-      stat:        "stamina",
-      statLabel:   "Stamina",
-    },
-    {
-      key:         "understand",
-      name:        "Understand",
-      description: "Make an Acuity roll. On a success, realize something previously missed.",
-      rollable:    true,
-      stat:        "acuity",
-      statLabel:   "Acuity",
-    },
-    {
-      key:         "useAbility",
-      name:        "Use an Ability",
-      description: "Use one of your abilities. No roll required unless the ability calls for one.",
-      rollable:    false,
-    },
+    { key: "aidFallen",  name: "Aid the Fallen",   description: "Spend your turn helping someone with 0 Will and Resist. They regain 1 Will.", rollable: false },
+    { key: "attack",     name: "Attack",            description: "Strike using Physique (melee/power) or Finesse (ranged/precision).", rollable: true,  stat: "physique", statLabel: "Physique or Finesse" },
+    { key: "defend",     name: "Defend",            description: "Make a Physique or Acuity roll. Before your next turn, ignore damage equal to successes.", rollable: true, stat: "physique", statLabel: "Physique or Acuity" },
+    { key: "help",       name: "Help",              description: "Aid an ally. When they roll on the same turn, they add 2d6 to their pool.", rollable: false },
+    { key: "hide",       name: "Hide",              description: "Opposed vs. Observe/Understand. Finesse to avoid detection; Presence to lie.", rollable: true, stat: "finesse", statLabel: "Finesse or Presence" },
+    { key: "interact",   name: "Interact",          description: "Lift an object, use technology, or engage surroundings.", rollable: false },
+    { key: "manipulate", name: "Manipulate",        description: "Presence roll opposed by Resist Acuity or Presence.", rollable: true, stat: "presence", statLabel: "Presence" },
+    { key: "move",       name: "Move",              description: "Take a new position using your Movement.", rollable: false },
+    { key: "observe",    name: "Observe",           description: "Presence roll. On a success, learn something about your situation or environment.", rollable: true, stat: "presence", statLabel: "Presence" },
+    { key: "persuade",   name: "Persuade",          description: "Presence roll to convince someone to listen to you.", rollable: true, stat: "presence", statLabel: "Presence" },
+    { key: "recall",     name: "Recall / Research", description: "Acuity roll to recall or uncover information.", rollable: true, stat: "acuity", statLabel: "Acuity" },
+    { key: "train",      name: "Train",             description: "Montage scenes only. Stamina roll to improve an ability.", rollable: true, stat: "stamina", statLabel: "Stamina" },
+    { key: "understand", name: "Understand",        description: "Acuity roll. On success, realize something previously missed.", rollable: true, stat: "acuity", statLabel: "Acuity" },
+    { key: "useAbility", name: "Use an Ability",    description: "No roll required unless the ability calls for one.", rollable: false },
   ];
 }
