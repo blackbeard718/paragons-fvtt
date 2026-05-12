@@ -18,8 +18,8 @@
         <div class="field-group">
           <label class="field-label">Talent Level</label>
           <select name="system.talentLevel">
-            <option value="1" {{#if (compare system.talentLevel "eq" 1)}}selected{{/if}}>Level 1</option>
-            <option value="4" {{#if (compare system.talentLevel "eq" 4)}}selected{{/if}}>Level 4</option>
+            <option value="1" {{#if (eq system.talentLevel 1)}}selected{{/if}}>Level 1</option>
+            <option value="4" {{#if (eq system.talentLevel 4)}}selected{{/if}}>Level 4</option>
           </select>
         </div>
         <div class="field-group">
@@ -50,13 +50,13 @@
         <div class="field-group">
           <label class="field-label">Roll Type</label>
           <select name="system.diceBonus.rollType">
-            <option value="none"    {{#if (compare system.diceBonus.rollType "eq" "none")}}selected{{/if}}>None</option>
-            <option value="any"     {{#if (compare system.diceBonus.rollType "eq" "any")}}selected{{/if}}>Any roll</option>
-            <option value="attack"  {{#if (compare system.diceBonus.rollType "eq" "attack")}}selected{{/if}}>Any attack</option>
-            <option value="melee"   {{#if (compare system.diceBonus.rollType "eq" "melee")}}selected{{/if}}>Melee attack</option>
-            <option value="ranged"  {{#if (compare system.diceBonus.rollType "eq" "ranged")}}selected{{/if}}>Ranged attack</option>
-            <option value="hide"    {{#if (compare system.diceBonus.rollType "eq" "hide")}}selected{{/if}}>Hide move</option>
-            <option value="specific"{{#if (compare system.diceBonus.rollType "eq" "specific")}}selected{{/if}}>Specific</option>
+            <option value="none"    {{#if (eq system.diceBonus.rollType "none")}}selected{{/if}}>None</option>
+            <option value="any"     {{#if (eq system.diceBonus.rollType "any")}}selected{{/if}}>Any roll</option>
+            <option value="attack"  {{#if (eq system.diceBonus.rollType "attack")}}selected{{/if}}>Any attack</option>
+            <option value="melee"   {{#if (eq system.diceBonus.rollType "melee")}}selected{{/if}}>Melee attack</option>
+            <option value="ranged"  {{#if (eq system.diceBonus.rollType "ranged")}}selected{{/if}}>Ranged attack</option>
+            <option value="hide"    {{#if (eq system.diceBonus.rollType "hide")}}selected{{/if}}>Hide move</option>
+            <option value="specific"{{#if (eq system.diceBonus.rollType "specific")}}selected{{/if}}>Specific</option>
           </select>
         </div>
         <div class="field-group wide">
@@ -101,9 +101,9 @@
         <div class="field-group">
           <label class="field-label">Resets Per</label>
           <select name="system.uses.per">
-            <option value="unlimited" {{#if (compare system.uses.per "eq" "unlimited")}}selected{{/if}}>Unlimited</option>
-            <option value="episode"   {{#if (compare system.uses.per "eq" "episode")}}selected{{/if}}>Episode</option>
-            <option value="scene"     {{#if (compare system.uses.per "eq" "scene")}}selected{{/if}}>Scene</option>
+            <option value="unlimited" {{#if (eq system.uses.per "unlimited")}}selected{{/if}}>Unlimited</option>
+            <option value="episode"   {{#if (eq system.uses.per "episode")}}selected{{/if}}>Episode</option>
+            <option value="scene"     {{#if (eq system.uses.per "scene")}}selected{{/if}}>Scene</option>
           </select>
         </div>
         <div class="field-group">
