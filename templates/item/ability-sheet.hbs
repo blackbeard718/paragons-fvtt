@@ -1,10 +1,9 @@
-{{!-- templates/item/ability-sheet.hbs --}}
-<form class="paragons-sheet item-sheet ability-sheet" autocomplete="off">
+{{!-- ability-sheet.hbs — V13, no form tag --}}
+<div class="paragons-sheet item-sheet ability-sheet">
   <div class="item-header">
-    <img class="item-image" src="{{item.img}}" title="{{item.name}}" />
+    <img class="item-image" src="{{item.img}}" title="{{item.name}}" data-action="editImage" data-field="img" />
     <div class="item-header-fields">
-      <input type="text" name="name" value="{{item.name}}"
-             class="item-name-input" placeholder="Ability Name" />
+      <input type="text" name="name" value="{{item.name}}" class="item-name-input" placeholder="Ability Name" />
       <div class="item-header-meta">
         <div class="field-group">
           <label class="field-label">Level</label>
@@ -16,13 +15,11 @@
         </div>
         <div class="field-group">
           <label class="field-label">Prerequisite</label>
-          <input type="text" name="system.prerequisite"
-                 value="{{system.prerequisite}}" placeholder="None" />
+          <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="None" />
         </div>
-        <div class="field-group checkbox-group">
+        <div class="field-group">
           <label class="checkbox-label">
-            <input type="checkbox" name="system.repeatable"
-                   {{#if system.repeatable}}checked{{/if}} />
+            <input type="checkbox" name="system.repeatable" {{#if system.repeatable}}checked{{/if}} />
             Repeatable
           </label>
         </div>
@@ -31,29 +28,21 @@
   </div>
 
   <div class="item-body">
-
-    {{!-- Description --}}
     <div class="form-group">
       <label class="field-label">Description</label>
-      {{editor system.description target="system.description"
-               button=true editable=editable}}
+      <textarea name="system.description" rows="4">{{system.description}}</textarea>
     </div>
-
-    {{!-- Outside the Action --}}
     <div class="form-group">
       <label class="field-label">Outside the Action</label>
-      {{editor system.outsideAction target="system.outsideAction"
-               button=true editable=editable}}
+      <textarea name="system.outsideAction" rows="3">{{system.outsideAction}}</textarea>
     </div>
 
-    {{!-- Dice Bonus --}}
     <fieldset class="item-fieldset">
       <legend>Dice Bonus</legend>
       <div class="form-row">
         <div class="field-group">
           <label class="field-label">Amount (d6)</label>
-          <input type="number" name="system.diceBonus.amount"
-                 value="{{system.diceBonus.amount}}" min="0" max="10" />
+          <input type="number" name="system.diceBonus.amount" value="{{system.diceBonus.amount}}" min="0" max="10" />
         </div>
         <div class="field-group">
           <label class="field-label">Roll Type</label>
@@ -63,97 +52,70 @@
             <option value="attack"     {{#if (eq system.diceBonus.rollType "attack")}}selected{{/if}}>Any attack</option>
             <option value="melee"      {{#if (eq system.diceBonus.rollType "melee")}}selected{{/if}}>Melee attack</option>
             <option value="ranged"     {{#if (eq system.diceBonus.rollType "ranged")}}selected{{/if}}>Ranged attack</option>
-            <option value="hide"       {{#if (eq system.diceBonus.rollType "hide")}}selected{{/if}}>Hide move</option>
-            <option value="manipulate" {{#if (eq system.diceBonus.rollType "manipulate")}}selected{{/if}}>Manipulate move</option>
-            <option value="observe"    {{#if (eq system.diceBonus.rollType "observe")}}selected{{/if}}>Observe move</option>
-            <option value="specific"   {{#if (eq system.diceBonus.rollType "specific")}}selected{{/if}}>Specific (see condition)</option>
+            <option value="hide"       {{#if (eq system.diceBonus.rollType "hide")}}selected{{/if}}>Hide</option>
+            <option value="manipulate" {{#if (eq system.diceBonus.rollType "manipulate")}}selected{{/if}}>Manipulate</option>
+            <option value="observe"    {{#if (eq system.diceBonus.rollType "observe")}}selected{{/if}}>Observe</option>
+            <option value="specific"   {{#if (eq system.diceBonus.rollType "specific")}}selected{{/if}}>Specific</option>
           </select>
         </div>
         <div class="field-group wide">
-          <label class="field-label">Condition / Notes</label>
-          <input type="text" name="system.diceBonus.condition"
-                 value="{{system.diceBonus.condition}}"
-                 placeholder="e.g. when making a Finesse melee attack" />
+          <label class="field-label">Condition</label>
+          <input type="text" name="system.diceBonus.condition" value="{{system.diceBonus.condition}}" placeholder="e.g. when making a Finesse melee attack" />
         </div>
       </div>
     </fieldset>
 
-    {{!-- Stat Modifications --}}
     <fieldset class="item-fieldset">
       <legend>Stat Modifications</legend>
       <div class="form-row stat-mods-row">
         {{#each statModFields}}
         <div class="field-group narrow">
           <label class="field-label">{{label}}</label>
-          <input type="number" name="system.statMods.{{key}}"
-                 value="{{value}}" />
+          <input type="number" name="system.statMods.{{key}}" value="{{value}}" />
         </div>
         {{/each}}
       </div>
       <div class="form-row">
         <div class="field-group">
           <label class="field-label">Physique Mult (Thick Skin=2, Unstoppable=4)</label>
-          <input type="number" name="system.statMods.physiqueMult"
-                 value="{{system.statMods.physiqueMult}}" min="1" max="4" />
+          <input type="number" name="system.statMods.physiqueMult" value="{{system.statMods.physiqueMult}}" min="1" max="4" />
         </div>
         <div class="field-group">
           <label class="field-label">Acuity Mult (Det.Resistance=2, Mental Fort.=4)</label>
-          <input type="number" name="system.statMods.acuityMult"
-                 value="{{system.statMods.acuityMult}}" min="1" max="4" />
+          <input type="number" name="system.statMods.acuityMult" value="{{system.statMods.acuityMult}}" min="1" max="4" />
         </div>
         <div class="field-group">
           <label class="field-label">Will Bonus (Battle Scars=5)</label>
-          <input type="number" name="system.statMods.willBonus"
-                 value="{{system.statMods.willBonus}}" min="0" />
+          <input type="number" name="system.statMods.willBonus" value="{{system.statMods.willBonus}}" min="0" />
         </div>
       </div>
     </fieldset>
 
-    {{!-- Movement / Special --}}
     <fieldset class="item-fieldset">
       <legend>Movement &amp; Special</legend>
       <div class="form-row">
         <div class="field-group">
-          <label class="field-label">Movement Override (0=none, 24=Speedster, 32=Supersonic)</label>
-          <input type="number" name="system.movementOverride"
-                 value="{{system.movementOverride}}" min="0" />
+          <label class="field-label">Movement Override (0=none)</label>
+          <input type="number" name="system.movementOverride" value="{{system.movementOverride}}" min="0" />
         </div>
         <div class="field-group">
-          <label class="field-label">Auto-successes on Hide (Cloaking=1, ShadowWalker=2, ShadowMaster=3)</label>
-          <input type="number" name="system.flags.autoSuccessOnHide"
-                 value="{{system.flags.autoSuccessOnHide}}" min="0" max="3" />
+          <label class="field-label">Auto-successes on Hide</label>
+          <input type="number" name="system.flags.autoSuccessOnHide" value="{{system.flags.autoSuccessOnHide}}" min="0" max="3" />
         </div>
         <div class="field-group">
-          <label class="field-label">Seer uses/episode (0=N/A)</label>
-          <input type="number" name="system.flags.seerUsesPerEpisode"
-                 value="{{system.flags.seerUsesPerEpisode}}" min="0" />
+          <label class="field-label">Seer uses/episode</label>
+          <input type="number" name="system.flags.seerUsesPerEpisode" value="{{system.flags.seerUsesPerEpisode}}" min="0" />
         </div>
       </div>
       <div class="form-row checkboxes-row">
-        <label class="checkbox-label">
-          <input type="checkbox" name="system.flags.grantsFly"
-                 {{#if system.flags.grantsFly}}checked{{/if}} /> Grants Fly
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" name="system.flags.grantsTelepathy"
-                 {{#if system.flags.grantsTelepathy}}checked{{/if}} /> Grants Telepathy
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" name="system.flags.grantsTelekinesis"
-                 {{#if system.flags.grantsTelekinesis}}checked{{/if}} /> Grants Telekinesis
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" name="system.flags.grantsExtraAbility"
-                 {{#if system.flags.grantsExtraAbility}}checked{{/if}} /> Grants Extra Ability
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" name="system.flags.deathPrevention"
-                 {{#if system.flags.deathPrevention}}checked{{/if}} /> Death Prevention (Survivor)
-        </label>
+        <label class="checkbox-label"><input type="checkbox" name="system.flags.grantsFly"          {{#if system.flags.grantsFly}}checked{{/if}} /> Grants Fly</label>
+        <label class="checkbox-label"><input type="checkbox" name="system.flags.grantsTelepathy"    {{#if system.flags.grantsTelepathy}}checked{{/if}} /> Grants Telepathy</label>
+        <label class="checkbox-label"><input type="checkbox" name="system.flags.grantsTelekinesis"  {{#if system.flags.grantsTelekinesis}}checked{{/if}} /> Grants Telekinesis</label>
+        <label class="checkbox-label"><input type="checkbox" name="system.flags.grantsExtraAbility" {{#if system.flags.grantsExtraAbility}}checked{{/if}} /> Grants Extra Ability</label>
+        <label class="checkbox-label"><input type="checkbox" name="system.flags.deathPrevention"    {{#if system.flags.deathPrevention}}checked{{/if}} /> Death Prevention</label>
       </div>
     </fieldset>
 
-    {{!-- Uses --}}
     <fieldset class="item-fieldset">
       <legend>Uses / Frequency</legend>
       <div class="form-row">
@@ -164,21 +126,17 @@
             <option value="episode"   {{#if (eq system.uses.per "episode")}}selected{{/if}}>Episode</option>
             <option value="scene"     {{#if (eq system.uses.per "scene")}}selected{{/if}}>Scene</option>
             <option value="turn"      {{#if (eq system.uses.per "turn")}}selected{{/if}}>Turn</option>
-            <option value="day"       {{#if (eq system.uses.per "day")}}selected{{/if}}>Day</option>
           </select>
         </div>
         <div class="field-group">
-          <label class="field-label">Max Uses (0=unlimited)</label>
-          <input type="number" name="system.uses.max"
-                 value="{{system.uses.max}}" min="0" />
+          <label class="field-label">Max Uses</label>
+          <input type="number" name="system.uses.max"     value="{{system.uses.max}}"     min="0" />
         </div>
         <div class="field-group">
           <label class="field-label">Current Uses</label>
-          <input type="number" name="system.uses.current"
-                 value="{{system.uses.current}}" min="0" />
+          <input type="number" name="system.uses.current" value="{{system.uses.current}}" min="0" />
         </div>
       </div>
     </fieldset>
-
   </div>
-</form>
+</div>
