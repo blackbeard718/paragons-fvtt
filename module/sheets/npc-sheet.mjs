@@ -43,11 +43,9 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   };
 
   static TABS = {
-    primary: {
-      tabs:    [{ id: "main" }, { id: "abilities" }, { id: "notes" }],
-      initial: "main",
-      labelPrefix: "PARAGONS.Tabs",
-    },
+    main:      { id: "main",      group: "primary", label: "Stat Block",      initial: true  },
+    abilities: { id: "abilities", group: "primary", label: "Abilities & Gear", initial: false },
+    notes:     { id: "notes",     group: "primary", label: "Notes & Traits",   initial: false },
   };
 
   // ── Context ──────────────────────────────────
@@ -91,8 +89,18 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.abilities     = this.actor.items.filter(i => i.type === "ability").sort((a,b) => a.name.localeCompare(b.name));
     context.gear          = this.actor.items.filter(i => i.type === "gear").sort((a,b) => a.name.localeCompare(b.name));
     context.abilityGearTotal = context.abilities.length + context.gear.length;
+    context.tabs = this._getTabs(this.constructor.TABS);
 
     return context;
+  }
+
+  // ── Tab Helper ───────────────────────────────
+  _getTabs(tabs) {
+    for (const v of Object.values(tabs)) {
+      v.active   = this.tabGroups[v.group] === v.id || (v.initial && !this.tabGroups[v.group]);
+      v.cssClass = v.active ? "active" : "";
+    }
+    return tabs;
   }
 
   // ── Part Listeners ────────────────────────────
