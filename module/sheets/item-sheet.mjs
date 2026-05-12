@@ -1,59 +1,63 @@
 /**
  * sheets/item-sheet.mjs
- * Handles ability, talent, and gear item sheets.
+ * Paragons Item Sheet — ItemSheetV2 (Foundry V13)
  */
 
-export class ParagonsItemSheet extends ItemSheet {
+const { HandlebarsApplicationMixin } = foundry.applications.api;
+const { ItemSheetV2 }                = foundry.applications.sheets;
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes:        ["paragons", "sheet", "item"],
-      width:          520,
-      height:         580,
+export class ParagonsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
+
+  static DEFAULT_OPTIONS = {
+    classes: ["paragons", "sheet", "item"],
+    position: { width: 520, height: 580 },
+    window:   { resizable: true },
+    form: {
       submitOnChange: true,
       closeOnSubmit:  false,
-      tabs: [],
-    });
+    },
+  };
+
+  static PARTS = {
+    form: {
+      template: "", // set dynamically in _configureRenderOptions
+    },
+  };
+
+  // Route template by item type
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    options.parts = ["form"];
+    this.constructor.PARTS.form = {
+      template: `systems/paragons/templates/item/${this.item.type}-sheet.hbs`,
+    };
+    return options;
   }
 
-  /** Route template by item type. */
-  get template() {
-    return `systems/paragons/templates/item/${this.item.type}-sheet.hbs`;
-  }
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const sys = this.item.system;
 
-  async getData(options = {}) {
-    const context = await super.getData(options);
-    context.system = context.data.system;
-    context.flags  = context.data.flags;
-    const system   = context.system;
+    context.item   = this.item;
+    context.system = sys;
+    context.flags  = this.item.flags;
 
-    // Stat mod fields for ability/gear sheets
     context.statModFields = [
-      { key: "physique", label: "Physique", value: system.statMods?.physique ?? 0 },
-      { key: "finesse",  label: "Finesse",  value: system.statMods?.finesse  ?? 0 },
-      { key: "stamina",  label: "Stamina",  value: system.statMods?.stamina  ?? 0 },
-      { key: "acuity",   label: "Acuity",   value: system.statMods?.acuity   ?? 0 },
-      { key: "presence", label: "Presence", value: system.statMods?.presence ?? 0 },
+      { key: "physique", label: "Physique", value: sys.statMods?.physique ?? 0 },
+      { key: "finesse",  label: "Finesse",  value: sys.statMods?.finesse  ?? 0 },
+      { key: "stamina",  label: "Stamina",  value: sys.statMods?.stamina  ?? 0 },
+      { key: "acuity",   label: "Acuity",   value: sys.statMods?.acuity   ?? 0 },
+      { key: "presence", label: "Presence", value: sys.statMods?.presence ?? 0 },
     ];
 
-    // Archetype choices for talent sheet
     context.archetypeChoices = [
       "acrobat","brawler","commander","defender",
-      "facilitator","hunter","strategist","striker"
+      "facilitator","hunter","strategist","striker",
     ].map(a => ({
-      value:    a,
-      label:    a.charAt(0).toUpperCase() + a.slice(1),
-      selected: system.archetype === a,
+      value: a, label: a.charAt(0).toUpperCase() + a.slice(1),
+      selected: sys.archetype === a,
     }));
 
     return context;
-  }
-
-  activateListeners(html) {
-    super.activateListeners(html);
-  }
-
-  async _updateObject(event, formData) {
-    return this.item.update(foundry.utils.expandObject(formData));
   }
 }
