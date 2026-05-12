@@ -43,11 +43,8 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
   };
 
   static TABS = {
-    primary: {
-      tabs:    [{ id: "play" }, { id: "concept" }],
-      initial: "play",
-      labelPrefix: "PARAGONS.Tabs",
-    },
+    play:    { id: "play",    group: "primary", label: "Play Sheet",      initial: true  },
+    concept: { id: "concept", group: "primary", label: "Concept & Moves", initial: false },
   };
 
   // ── Context ──────────────────────────────────
@@ -96,8 +93,18 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     }));
     context.reputationThreshold = sys.reputationThresholds ?? { featsNeeded: null, failuresNeeded: null };
     context.moves = _buildMovesData();
+    context.tabs  = this._getTabs(this.constructor.TABS);
 
     return context;
+  }
+
+  // ── Tab Helper (matches daggerheart pattern) ─
+  _getTabs(tabs) {
+    for (const v of Object.values(tabs)) {
+      v.active   = this.tabGroups[v.group] === v.id || (v.initial && !this.tabGroups[v.group]);
+      v.cssClass = v.active ? "active" : "";
+    }
+    return tabs;
   }
 
   // ── Part Listeners (V13 pattern) ─────────────
