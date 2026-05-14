@@ -1,0 +1,98 @@
+{{!-- talent-sheet.hbs — V13 --}}
+<div class="paragons-sheet item-sheet talent-sheet">
+  <div class="item-header">
+    <img class="item-image" src="{{item.img}}" title="{{item.name}}" data-action="editImage" data-field="img" />
+    <div class="item-header-fields">
+      <input type="text" name="name" value="{{item.name}}" class="item-name-input" placeholder="Talent Name" />
+      <div class="item-header-meta">
+        <div class="field-group">
+          <label class="field-label">Archetype</label>
+          <select name="system.archetype">
+            <option value="">— Any —</option>
+            {{#each archetypeChoices}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Talent Level</label>
+          <select name="system.talentLevel">
+            <option value="1" {{#if (eq system.talentLevel 1)}}selected{{/if}}>Level 1</option>
+            <option value="4" {{#if (eq system.talentLevel 4)}}selected{{/if}}>Level 4</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Prerequisite</label>
+          <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="None" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item-body">
+    <div class="form-group">
+      <label class="field-label">Description</label>
+      <textarea name="system.description" rows="5">{{system.description}}</textarea>
+    </div>
+    <fieldset class="item-fieldset">
+      <legend>Dice Bonus</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Amount (d6)</label>
+          <input type="number" name="system.diceBonus.amount" value="{{system.diceBonus.amount}}" min="0" max="10" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Roll Type</label>
+          <select name="system.diceBonus.rollType">
+            <option value="none"    {{#if (eq system.diceBonus.rollType "none")}}selected{{/if}}>None</option>
+            <option value="any"     {{#if (eq system.diceBonus.rollType "any")}}selected{{/if}}>Any roll</option>
+            <option value="attack"  {{#if (eq system.diceBonus.rollType "attack")}}selected{{/if}}>Any attack</option>
+            <option value="melee"   {{#if (eq system.diceBonus.rollType "melee")}}selected{{/if}}>Melee</option>
+            <option value="ranged"  {{#if (eq system.diceBonus.rollType "ranged")}}selected{{/if}}>Ranged</option>
+            <option value="hide"    {{#if (eq system.diceBonus.rollType "hide")}}selected{{/if}}>Hide</option>
+            <option value="specific"{{#if (eq system.diceBonus.rollType "specific")}}selected{{/if}}>Specific</option>
+          </select>
+        </div>
+        <div class="field-group wide">
+          <label class="field-label">Condition</label>
+          <input type="text" name="system.diceBonus.condition" value="{{system.diceBonus.condition}}" placeholder="e.g. when making a Finesse melee attack" />
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="item-fieldset">
+      <legend>Other Effects</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Will Bonus (Battle Scars=5)</label>
+          <input type="number" name="system.willBonus" value="{{system.willBonus}}" min="0" />
+        </div>
+      </div>
+      <div class="form-row checkboxes-row">
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.isCrossTraining" {{#if system.isCrossTraining}}checked{{/if}} />
+          Cross-Training
+        </label>
+      </div>
+    </fieldset>
+    <fieldset class="item-fieldset">
+      <legend>Uses / Frequency</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Resets Per</label>
+          <select name="system.uses.per">
+            <option value="unlimited" {{#if (eq system.uses.per "unlimited")}}selected{{/if}}>Unlimited</option>
+            <option value="episode"   {{#if (eq system.uses.per "episode")}}selected{{/if}}>Episode</option>
+            <option value="scene"     {{#if (eq system.uses.per "scene")}}selected{{/if}}>Scene</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Max Uses</label>
+          <input type="number" name="system.uses.max"     value="{{system.uses.max}}"     min="0" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Current Uses</label>
+          <input type="number" name="system.uses.current" value="{{system.uses.current}}" min="0" />
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
