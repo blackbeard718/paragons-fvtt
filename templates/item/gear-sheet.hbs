@@ -1,0 +1,77 @@
+{{!-- gear-sheet.hbs — V13 --}}
+<div class="paragons-sheet item-sheet gear-sheet">
+  <div class="item-header">
+    <img class="item-image" src="{{item.img}}" title="{{item.name}}" data-action="editImage" data-field="img" />
+    <div class="item-header-fields">
+      <input type="text" name="name" value="{{item.name}}" class="item-name-input" placeholder="Gear Name" />
+      <div class="item-header-meta">
+        <div class="field-group">
+          <label class="field-label">Gear Dice</label>
+          <select name="system.gearDice">
+            <option value="1" {{#if (eq system.gearDice 1)}}selected{{/if}}>1d6 — Improvised</option>
+            <option value="2" {{#if (eq system.gearDice 2)}}selected{{/if}}>2d6 — Right Tool</option>
+            <option value="3" {{#if (eq system.gearDice 3)}}selected{{/if}}>3d6 — Specialized</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Range</label>
+          <select name="system.range">
+            <option value="">N/A</option>
+            <option value="close"   {{#if (eq system.range "close")}}selected{{/if}}>Close</option>
+            <option value="near"    {{#if (eq system.range "near")}}selected{{/if}}>Near</option>
+            <option value="far"     {{#if (eq system.range "far")}}selected{{/if}}>Far</option>
+            <option value="distant" {{#if (eq system.range "distant")}}selected{{/if}}>Distant</option>
+          </select>
+        </div>
+        <div class="checkboxes-row">
+          <label class="checkbox-label"><input type="checkbox" name="system.isDefensive" {{#if system.isDefensive}}checked{{/if}} /> Defensive</label>
+          <label class="checkbox-label"><input type="checkbox" name="system.isArtifact"  {{#if system.isArtifact}}checked{{/if}} /> Artifact</label>
+          <label class="checkbox-label"><input type="checkbox" name="system.equipped"    {{#if system.equipped}}checked{{/if}} /> Equipped</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item-body">
+    <div class="form-group">
+      <label class="field-label">Description</label>
+      <textarea name="system.description" rows="5">{{system.description}}</textarea>
+    </div>
+    <div class="form-group">
+      <label class="field-label">Prerequisite</label>
+      <input type="text" name="system.prerequisite" value="{{system.prerequisite}}" placeholder="e.g. Telepathy ability required" />
+    </div>
+    <fieldset class="item-fieldset">
+      <legend>Stat Modifications (Unique Gear)</legend>
+      <div class="form-row stat-mods-row">
+        {{#each statModFields}}
+        <div class="field-group narrow">
+          <label class="field-label">{{label}}</label>
+          <input type="number" name="system.statMods.{{key}}" value="{{value}}" />
+        </div>
+        {{/each}}
+      </div>
+    </fieldset>
+    <fieldset class="item-fieldset">
+      <legend>Additional Dice Bonus</legend>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Bonus Dice (d6)</label>
+          <input type="number" name="system.diceBonus.amount" value="{{system.diceBonus.amount}}" min="0" max="6" />
+        </div>
+        <div class="field-group wide">
+          <label class="field-label">Condition</label>
+          <input type="text" name="system.diceBonus.condition" value="{{system.diceBonus.condition}}" placeholder="e.g. +2d6 when using Telepathy" />
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="item-fieldset">
+      <legend>Granted Ability</legend>
+      <div class="form-row">
+        <div class="field-group wide">
+          <label class="field-label">Grants Ability (name)</label>
+          <input type="text" name="system.grantsAbility" value="{{system.grantsAbility}}" placeholder="e.g. Speedster (Marathon Boots)" />
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
