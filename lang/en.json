@@ -86,7 +86,10 @@
     "Sheets": {
       "Character": "Paragons Character Sheet",
       "Npc": "Paragons NPC Sheet",
-      "Item": "Paragons Item Sheet"
+      "Item": "Paragons Item Sheet",
+      "Ability": "Paragons Ability Sheet",
+      "Talent": "Paragons Talent Sheet",
+      "Gear": "Paragons Gear Sheet"
     },
     "Tabs": {
       "play": "Play Sheet",
