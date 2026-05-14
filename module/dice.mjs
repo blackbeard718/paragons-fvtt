@@ -223,10 +223,8 @@ export class ParagonsRollDialog {
    * @returns {ParagonsRoll|null}
    */
   static async prompt(config, { force = false } = {}) {
-    if (force) {
-      return ParagonsRollDialog._showDialog(config);
-    }
-    return ParagonsRollDialog._rollDirect(config);
+    // Always show the dialog — shift-click was unreliable in V13
+    return ParagonsRollDialog._showDialog(config);
   }
 
   static async _rollDirect(config) {
