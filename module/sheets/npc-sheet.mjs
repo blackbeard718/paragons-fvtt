@@ -108,6 +108,18 @@ export class ParagonsNpcSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
 
+    // Portrait click → FilePicker
+    htmlElement.querySelectorAll(".sheet-portrait").forEach(el => {
+      el.addEventListener("click", () => {
+        const fp = new FilePicker({
+          type:     "image",
+          current:  this.actor.img,
+          callback: async (path) => { await this.actor.update({ img: path }); },
+        });
+        fp.render(true);
+      });
+    });
+
     if (partId === "main")      this._attachMainListeners(htmlElement);
     if (partId === "abilities") this._attachAbilityListeners(htmlElement);
   }
