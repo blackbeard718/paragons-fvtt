@@ -239,9 +239,13 @@ export class ParagonsRollDialog {
     const cpAvailable = actor?.system.coolPoints.value ?? 0;
     const currentMode = game.settings.get("core", "rollMode");
 
-    // Build roll mode options
+    // Build roll mode options — V13 rollModes values may be objects or strings
     const rollModeOptions = Object.entries(CONFIG.Dice.rollModes)
-      .map(([k, v]) => `<option value="${k}" ${k === currentMode ? "selected" : ""}>${game.i18n.localize(v)}</option>`)
+      .map(([k, v]) => {
+        const label = typeof v === "string" ? game.i18n.localize(v)
+                    : (v?.label ? game.i18n.localize(v.label) : k);
+        return `<option value="${k}" ${k === currentMode ? "selected" : ""}>${label}</option>`;
+      })
       .join("");
 
     const poolRows = config.isDeathRoll ? `
