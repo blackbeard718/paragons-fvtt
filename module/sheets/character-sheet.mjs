@@ -107,19 +107,28 @@ export class ParagonsCharacterSheet extends HandlebarsApplicationMixin(ActorShee
     return tabs;
   }
 
-  // ── Part Listeners (V13 pattern) ─────────────
 
+
+  // ── Part Listeners ───────────────────────────
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
 
-    switch (partId) {
-      case "play":
-        this._attachPlayListeners(htmlElement);
-        break;
-      case "concept":
-        this._attachConceptListeners(htmlElement);
-        break;
+    if (partId === "header") {
+      // Portrait click → FilePicker
+      htmlElement.querySelectorAll(".sheet-portrait").forEach(el => {
+        el.addEventListener("click", () => {
+          const fp = new FilePicker({
+            type:     "image",
+            current:  this.actor.img,
+            callback: async (path) => { await this.actor.update({ img: path }); },
+          });
+          fp.render(true);
+        });
+      });
     }
+
+    if (partId === "play")    this._attachPlayListeners(htmlElement);
+    if (partId === "concept") this._attachConceptListeners(htmlElement);
   }
 
   _attachPlayListeners(html) {
