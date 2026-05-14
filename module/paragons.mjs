@@ -10,7 +10,7 @@ import { ParagonsRoll, ParagonsRollDialog, onChatCardCoolPointSpend } from "./di
 import { rollStat, rollAttack, rollResist, rollDeath, rollInitiative, rollMove, rollNpcAttack } from "./roll-helpers.mjs";
 import { ParagonsCharacterSheet } from "./sheets/character-sheet.mjs";
 import { ParagonsNpcSheet }       from "./sheets/npc-sheet.mjs";
-import { ParagonsItemSheet }      from "./sheets/item-sheet.mjs";
+import { ParagonsAbilitySheet, ParagonstTalentSheet, ParagonsGearSheet } from "./sheets/item-sheet.mjs";
 
 // Expose roll API globally for macros
 globalThis.ParagonsRoll       = ParagonsRoll;
@@ -99,8 +99,14 @@ Hooks.once("init", () => {
   });
 
   _unregisterItem("core", foundry?.appv1?.sheets?.ItemSheet ?? ItemSheet);
-  _registerItem("paragons", ParagonsItemSheet, {
-    types: ["ability", "talent", "gear"], makeDefault: true, label: "PARAGONS.Sheets.Item",
+  _registerItem("paragons", ParagonsAbilitySheet, {
+    types: ["ability"], makeDefault: true, label: "PARAGONS.Sheets.Ability",
+  });
+  _registerItem("paragons", ParagonstTalentSheet, {
+    types: ["talent"], makeDefault: true, label: "PARAGONS.Sheets.Talent",
+  });
+  _registerItem("paragons", ParagonsGearSheet, {
+    types: ["gear"], makeDefault: true, label: "PARAGONS.Sheets.Gear",
   });
 
   // ── Handlebars Helpers ─────────────────────
