@@ -1,0 +1,47 @@
+{
+  "name": "Overcharge",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "Your charged attacks are now even stronger. When you make a charged attack, add 3d6 to your dice pool on top of Charge Up (total 6d6).",
+    "archetype": "striker",
+    "talentLevel": 4,
+    "prerequisite": "Charge Up",
+    "diceBonus": {
+      "amount": 3,
+      "rollType": "attack",
+      "condition": "Charged attack (on top of Charge Up, total 6d6)"
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": false,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "mSTGAqSlOgcOgxyQ",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.yUDR0R6CqgrmWpz4",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.UV7OtcPUHNndiI62",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}
