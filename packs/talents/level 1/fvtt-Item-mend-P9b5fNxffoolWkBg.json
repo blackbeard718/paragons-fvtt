@@ -1,0 +1,47 @@
+{
+  "name": "Mend",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "When an ally is injured, you can restore 1d6 Will. You can heal each ally once per action scene.",
+    "archetype": "facilitator",
+    "talentLevel": 1,
+    "prerequisite": "",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": false,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "sQPmIvXiamDz8gSw",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.ULPBQZzCtxKPLJhb",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.P9b5fNxffoolWkBg",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

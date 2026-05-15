@@ -1,0 +1,47 @@
+{
+  "name": "Cross-Training (Strategist)",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "You can take one talent of your choice from any archetype that is not your own.",
+    "archetype": "strategist",
+    "talentLevel": 1,
+    "prerequisite": "",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": true,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "sQPmIvXiamDz8gSw",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.NVUfk4W7cyhsKVGY",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.JZovJglPrBw5ZeLZ",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

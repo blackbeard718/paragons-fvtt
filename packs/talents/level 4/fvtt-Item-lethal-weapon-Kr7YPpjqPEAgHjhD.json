@@ -1,0 +1,47 @@
+{
+  "name": "Lethal Weapon",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "You've learned how to make the most of your attacks. Add 2d6 to your dice pool for all melee attacks.",
+    "archetype": "brawler",
+    "talentLevel": 4,
+    "prerequisite": "",
+    "diceBonus": {
+      "amount": 2,
+      "rollType": "melee",
+      "condition": ""
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": false,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "mSTGAqSlOgcOgxyQ",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.mp4E2LqHoCt3sb20",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.Kr7YPpjqPEAgHjhD",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

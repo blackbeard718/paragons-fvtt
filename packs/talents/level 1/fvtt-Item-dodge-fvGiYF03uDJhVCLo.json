@@ -1,0 +1,47 @@
+{
+  "name": "Dodge",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "Your nimble footwork helps you avoid incoming attacks. Add 1d6 to your dice pool when using the Defend move.",
+    "archetype": "acrobat",
+    "talentLevel": 1,
+    "prerequisite": "",
+    "diceBonus": {
+      "amount": 1,
+      "rollType": "specific",
+      "condition": "When using the Defend move"
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": false,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "sQPmIvXiamDz8gSw",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.qQKX3mPcZB2PJatY",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.fvGiYF03uDJhVCLo",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

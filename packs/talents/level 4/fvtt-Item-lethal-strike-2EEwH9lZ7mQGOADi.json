@@ -1,0 +1,47 @@
+{
+  "name": "Lethal Strike",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "You've learned how to make the most of your attacks. Add 2d6 to your dice pool on all attacks using Finesse.",
+    "archetype": "hunter",
+    "talentLevel": 4,
+    "prerequisite": "",
+    "diceBonus": {
+      "amount": 2,
+      "rollType": "attack",
+      "condition": "All Finesse-based attacks"
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": false,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "mSTGAqSlOgcOgxyQ",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.8MIgySJl6GsaSnC1",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.2EEwH9lZ7mQGOADi",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

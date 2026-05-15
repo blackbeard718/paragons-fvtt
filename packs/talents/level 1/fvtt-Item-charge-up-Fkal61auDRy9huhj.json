@@ -1,0 +1,47 @@
+{
+  "name": "Charge Up",
+  "type": "talent",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "description": "Spend your move charging an attack. Release it on your next turn, adding 3d6 to your dice pool. If you take damage while charging, spend Resist points or the attack is interrupted and you lose the bonus dice.",
+    "archetype": "striker",
+    "talentLevel": 1,
+    "prerequisite": "",
+    "diceBonus": {
+      "amount": 3,
+      "rollType": "attack",
+      "condition": "Attack on the turn after spending a move charging; 0d6 if interrupted"
+    },
+    "willBonus": 0,
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    },
+    "isCrossTraining": false,
+    "sourceArchetype": ""
+  },
+  "effects": [],
+  "folder": "sQPmIvXiamDz8gSw",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.talents.Item.Jq3O36jJML4jb0fi",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.Fkal61auDRy9huhj",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778814114461,
+    "modifiedTime": 1778814114461,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}
