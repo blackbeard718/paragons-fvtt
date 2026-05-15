@@ -1,0 +1,67 @@
+{
+  "name": "Technologist",
+  "type": "ability",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "prerequisite": "",
+    "description": "You are experienced with technology and all its functions. Add 1d6 to your dice pool when rolling to operate technology, or when using technology to perform another move.",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "repeatable": false,
+    "movementOverride": 0,
+    "outsideAction": "",
+    "abilityLevel": 1,
+    "statMods": {
+      "physique": 0,
+      "finesse": 0,
+      "stamina": 0,
+      "acuity": 0,
+      "presence": 0,
+      "physiqueMult": 1,
+      "acuityMult": 1,
+      "willBonus": 0,
+      "statCapOverride": 6,
+      "statCapTarget": ""
+    },
+    "flags": {
+      "grantsFly": false,
+      "grantsTelepathy": false,
+      "grantsTelekinesis": false,
+      "grantsExtraAbility": false,
+      "autoSuccessOnHide": 0,
+      "seerUsesPerEpisode": 0,
+      "deathPrevention": false
+    },
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    }
+  },
+  "effects": [],
+  "folder": "spkT9JBa7KJwbiUE",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.abilities.Item.axt83YyNjTIH60IA",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.axt83YyNjTIH60IA",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778815443199,
+    "modifiedTime": 1778815443199,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

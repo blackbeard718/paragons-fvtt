@@ -1,0 +1,67 @@
+{
+  "name": "Stat Increase (Finesse)",
+  "type": "ability",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "prerequisite": "",
+    "description": "Increase your Finesse by 1. You can take this ability multiple times. You cannot increase any stat above 6 with this ability.",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "repeatable": true,
+    "movementOverride": 0,
+    "outsideAction": "",
+    "abilityLevel": 1,
+    "statMods": {
+      "physique": 0,
+      "finesse": 0,
+      "stamina": 0,
+      "acuity": 0,
+      "presence": 0,
+      "physiqueMult": 1,
+      "acuityMult": 1,
+      "willBonus": 0,
+      "statCapOverride": 6,
+      "statCapTarget": ""
+    },
+    "flags": {
+      "grantsFly": false,
+      "grantsTelepathy": false,
+      "grantsTelekinesis": false,
+      "grantsExtraAbility": false,
+      "autoSuccessOnHide": 0,
+      "seerUsesPerEpisode": 0,
+      "deathPrevention": false
+    },
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    }
+  },
+  "effects": [],
+  "folder": "spkT9JBa7KJwbiUE",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.abilities.Item.7JGEMzf8Y3pTQi6M",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.7JGEMzf8Y3pTQi6M",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778815443199,
+    "modifiedTime": 1778815443199,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

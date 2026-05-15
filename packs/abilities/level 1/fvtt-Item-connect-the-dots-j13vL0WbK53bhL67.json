@@ -1,0 +1,67 @@
+{
+  "name": "Connect the Dots",
+  "type": "ability",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "prerequisite": "",
+    "description": "You can see connections between people, clues, and coincidences more clearly than others. When you roll one or more successes when using the Understand move, you can ask a related yes or no question that the GM must answer truthfully.",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "repeatable": false,
+    "movementOverride": 0,
+    "outsideAction": "",
+    "abilityLevel": 1,
+    "statMods": {
+      "physique": 0,
+      "finesse": 0,
+      "stamina": 0,
+      "acuity": 0,
+      "presence": 0,
+      "physiqueMult": 1,
+      "acuityMult": 1,
+      "willBonus": 0,
+      "statCapOverride": 6,
+      "statCapTarget": ""
+    },
+    "flags": {
+      "grantsFly": false,
+      "grantsTelepathy": false,
+      "grantsTelekinesis": false,
+      "grantsExtraAbility": false,
+      "autoSuccessOnHide": 0,
+      "seerUsesPerEpisode": 0,
+      "deathPrevention": false
+    },
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    }
+  },
+  "effects": [],
+  "folder": "spkT9JBa7KJwbiUE",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.abilities.Item.j13vL0WbK53bhL67",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.j13vL0WbK53bhL67",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778815443199,
+    "modifiedTime": 1778815443199,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

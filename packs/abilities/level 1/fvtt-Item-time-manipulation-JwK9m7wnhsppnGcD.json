@@ -1,0 +1,67 @@
+{
+  "name": "Time Manipulation",
+  "type": "ability",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "prerequisite": "",
+    "description": "You can influence the flow of time around you. Choose from: (1) Slow everyone else — for up to two rounds, use two moves on your turn and appear faster. (2) Speed everyone else — you forgo acting on your first turn to use a move on your second turn and appear slower. After using this ability, you sacrifice one turn to recover.\n\nOutside the Action: You can control the flow of time for several hours, but age accordingly.",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "repeatable": false,
+    "movementOverride": 0,
+    "outsideAction": "",
+    "abilityLevel": 1,
+    "statMods": {
+      "physique": 0,
+      "finesse": 0,
+      "stamina": 0,
+      "acuity": 0,
+      "presence": 0,
+      "physiqueMult": 1,
+      "acuityMult": 1,
+      "willBonus": 0,
+      "statCapOverride": 6,
+      "statCapTarget": ""
+    },
+    "flags": {
+      "grantsFly": false,
+      "grantsTelepathy": false,
+      "grantsTelekinesis": false,
+      "grantsExtraAbility": false,
+      "autoSuccessOnHide": 0,
+      "seerUsesPerEpisode": 0,
+      "deathPrevention": false
+    },
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    }
+  },
+  "effects": [],
+  "folder": "spkT9JBa7KJwbiUE",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.abilities.Item.JwK9m7wnhsppnGcD",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.JwK9m7wnhsppnGcD",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778815443199,
+    "modifiedTime": 1778815443199,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

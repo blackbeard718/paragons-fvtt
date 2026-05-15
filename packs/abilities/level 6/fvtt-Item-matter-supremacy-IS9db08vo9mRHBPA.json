@@ -1,0 +1,67 @@
+{
+  "name": "Matter Supremacy",
+  "type": "ability",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "prerequisite": "Matter Mastery",
+    "description": "Your skill at controlling matter is unmatched. Add 3d6 to your dice pool for material attacks and abilities, on top of your dice from Matter Mastery. (Total: 5d6)",
+    "diceBonus": {
+      "amount": 0,
+      "rollType": "none",
+      "condition": ""
+    },
+    "repeatable": false,
+    "movementOverride": 0,
+    "outsideAction": "",
+    "abilityLevel": 1,
+    "statMods": {
+      "physique": 0,
+      "finesse": 0,
+      "stamina": 0,
+      "acuity": 0,
+      "presence": 0,
+      "physiqueMult": 1,
+      "acuityMult": 1,
+      "willBonus": 0,
+      "statCapOverride": 6,
+      "statCapTarget": ""
+    },
+    "flags": {
+      "grantsFly": false,
+      "grantsTelepathy": false,
+      "grantsTelekinesis": false,
+      "grantsExtraAbility": false,
+      "autoSuccessOnHide": 0,
+      "seerUsesPerEpisode": 0,
+      "deathPrevention": false
+    },
+    "uses": {
+      "per": "unlimited",
+      "max": 0,
+      "current": 0
+    }
+  },
+  "effects": [],
+  "folder": "vv7wMeo3gmodthEt",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.abilities.Item.IS9db08vo9mRHBPA",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Item.IS9db08vo9mRHBPA",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778815443199,
+    "modifiedTime": 1778815443199,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}
