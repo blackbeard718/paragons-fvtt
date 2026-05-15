@@ -1,0 +1,168 @@
+{
+  "name": "Director Holt",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "<p>The VP of Security Operations at Meridian Consolidated, a defense contractor with fingers in every government contract in the region. Holt has no powers and no combat training, but he commands a private army, controls the city's surveillance infrastructure, and has the ear of three city council members. He views paragons as an unregulated liability and is building a legal and political framework to bring them under corporate control. He is the most dangerous kind of villain: patient, legitimate, and entirely correct that nobody can arrest him.</p>",
+    "secretId": "",
+    "npcType": "antagonist",
+    "powerRating": 2,
+    "stats": {
+      "physique": 2,
+      "finesse": 2,
+      "stamina": 3,
+      "acuity": 6,
+      "presence": 7
+    },
+    "will": {
+      "value": 10,
+      "max": 10
+    },
+    "resist": {
+      "value": 4,
+      "max": 4
+    },
+    "dicePoolMax": 10,
+    "movement": 6,
+    "traits": {
+      "agenda": "Bring paranormal activity under corporate regulatory control — permanently.",
+      "motive": "Control",
+      "flaw": "His contempt for powered individuals blinds him to how dangerous they actually are when cornered."
+    },
+    "attackMoves": [
+      {
+        "label": "Legal Injunction",
+        "stat": "presence",
+        "dicePool": 9,
+        "range": "far",
+        "description": "Out of combat: Holt can freeze assets, revoke permits, or trigger police response against heroes operating publicly."
+      },
+      {
+        "label": "Security Detail",
+        "stat": "presence",
+        "dicePool": 7,
+        "range": "far",
+        "description": "Calls in 1d6 Mercenary Soldiers (PR1) who arrive within 2 rounds."
+      }
+    ],
+    "isHuman": true
+  },
+  "prototypeToken": {
+    "name": "Director Holt",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [],
+  "effects": [],
+  "folder": "GqLVB8sLKKJtybbN",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.npcs.Actor.JRimVMMwhtZ2Ghjy",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Actor.JRimVMMwhtZ2Ghjy",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778811311707,
+    "modifiedTime": 1778811311707,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

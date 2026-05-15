@@ -1,0 +1,175 @@
+{
+  "name": "Nullifier",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "<p>The most dangerous villain most heroes have never heard of. Nullifier can suppress the powers of anyone within Near range, reducing paragons to street-level threats instantly. He is cold, methodical, and has no interest in spectacle — only results. Works exclusively for clients who can afford his silence.</p>",
+    "secretId": "Desmond Vale",
+    "npcType": "antagonist",
+    "powerRating": 4,
+    "stats": {
+      "physique": 4,
+      "finesse": 5,
+      "stamina": 5,
+      "acuity": 6,
+      "presence": 6
+    },
+    "will": {
+      "value": 18,
+      "max": 18
+    },
+    "resist": {
+      "value": 17,
+      "max": 17
+    },
+    "dicePoolMax": 15,
+    "movement": 8,
+    "traits": {
+      "agenda": "Complete the contract. Leave no loose ends.",
+      "motive": "Profit",
+      "flaw": "Utterly underestimates non-powered individuals, whom he views as irrelevant."
+    },
+    "attackMoves": [
+      {
+        "label": "Power Suppression Field",
+        "stat": "presence",
+        "dicePool": 9,
+        "range": "near",
+        "description": "All paragons Near must make a Resist Acuity roll or lose access to their abilities until end of their next turn."
+      },
+      {
+        "label": "Suppressor Pulse",
+        "stat": "acuity",
+        "dicePool": 8,
+        "range": "near",
+        "description": "Targeted nullification. Single target loses one specific ability for the scene on 3+ successes."
+      },
+      {
+        "label": "Combat Strike",
+        "stat": "finesse",
+        "dicePool": 7,
+        "range": "near",
+        "description": "Trained hand-to-hand combat, fully capable without powers in the room."
+      }
+    ],
+    "isHuman": false
+  },
+  "prototypeToken": {
+    "name": "Nullifier",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [],
+  "effects": [],
+  "folder": "GqLVB8sLKKJtybbN",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.npcs.Actor.4CwzkpOX8WmqmARO",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Actor.4CwzkpOX8WmqmARO",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778811311707,
+    "modifiedTime": 1778811311707,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

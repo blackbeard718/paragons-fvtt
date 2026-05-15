@@ -1,0 +1,175 @@
+{
+  "name": "AEGIS-03 \"Blitz\" (Caden Kael)",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "<p>The eldest child and the one most likely to do something his mother hasn't planned for. Caden's suit — AEGIS-03 — is optimised for velocity above all else. He hits fast, repositions faster, and is genuinely difficult to pin down. He and his father are competitive in the way that only similar people can be, and he chafes under Nadia's command structure even as he respects it. The most publicly visible Forgeborn member.</p>",
+    "secretId": "Caden Kael",
+    "npcType": "hero",
+    "powerRating": 3,
+    "stats": {
+      "physique": 6,
+      "finesse": 6,
+      "stamina": 5,
+      "acuity": 3,
+      "presence": 5
+    },
+    "will": {
+      "value": 17,
+      "max": 17
+    },
+    "resist": {
+      "value": 14,
+      "max": 14
+    },
+    "dicePoolMax": 12,
+    "movement": 14,
+    "traits": {
+      "agenda": "Be the best Forgeborn in the field and prove he doesn't need his mother's plans.",
+      "motive": "Pride",
+      "flaw": "Breaks formation to chase a win, leaving gaps his enemies learn to exploit."
+    },
+    "attackMoves": [
+      {
+        "label": "Blitz Strike",
+        "stat": "physique",
+        "dicePool": 9,
+        "range": "near",
+        "description": "High-speed melee attack after straight-line approach. Speedster + Thrill of the Fight if already hit this fight."
+      },
+      {
+        "label": "Hit and Run",
+        "stat": "finesse",
+        "dicePool": 8,
+        "range": "near",
+        "description": "Attacks then immediately repositions up to full Movement. Target cannot take a reaction against the movement."
+      },
+      {
+        "label": "Kinetic Overload",
+        "stat": "physique",
+        "dicePool": 11,
+        "range": "near",
+        "description": "Charge Up variant — momentum stored over a full move. On 4+ successes, target is stunned for one round."
+      }
+    ],
+    "isHuman": true
+  },
+  "prototypeToken": {
+    "name": "AEGIS-03 \"Blitz\" (Caden Kael)",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [],
+  "effects": [],
+  "folder": "wAdOXgIg5TaYqiCj",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.npcs.Actor.LoVtBIZ0gjc0o95b",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Actor.LoVtBIZ0gjc0o95b",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778811311707,
+    "modifiedTime": 1778811311707,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}
