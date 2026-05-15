@@ -19,7 +19,7 @@
   --paragons-failure:      #8b1a1a;
   --paragons-tab-bg:       #1a3a5c;
   --paragons-tab-text:     #c8dff0;
-  --font-header: "Bangers", "Impact", "Arial Black", sans-serif;
+  --font-header: "Jockey One", "Impact", "Arial Black", sans-serif;
   --font-body:   "Nunito", "Segoe UI", system-ui, sans-serif;
 }
 
@@ -46,7 +46,7 @@
   --font-body:   "Nunito", "Segoe UI", system-ui, sans-serif;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anta&family=Jockey+One&display=swap');
 
 /* ── Sheet Container ──────────────────────── */
 .paragons-sheet { background: var(--paragons-sheet-bg); font-family: var(--font-body); color: var(--paragons-text); position: relative; min-height: 100%; }
