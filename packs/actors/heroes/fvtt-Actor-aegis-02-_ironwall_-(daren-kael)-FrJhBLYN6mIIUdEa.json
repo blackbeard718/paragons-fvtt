@@ -1,0 +1,175 @@
+{
+  "name": "AEGIS-02 \"Ironwall\" (Daren Kael)",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "<p>Daren Kael was a structural engineer before he was a hero, and it shows — he thinks about load-bearing, about what holds and what breaks. His suit, AEGIS-02, is the heaviest in the Forgeborn arsenal. He is calm in a fight in a way that unnerves opponents, and he hits like a collapsing building. He and Nadia operate with the shorthand of twenty years of partnership; a look between them is a full conversation.</p>",
+    "secretId": "Daren Kael",
+    "npcType": "hero",
+    "powerRating": 4,
+    "stats": {
+      "physique": 8,
+      "finesse": 3,
+      "stamina": 7,
+      "acuity": 4,
+      "presence": 4
+    },
+    "will": {
+      "value": 22,
+      "max": 22
+    },
+    "resist": {
+      "value": 22,
+      "max": 22
+    },
+    "dicePoolMax": 15,
+    "movement": 6,
+    "traits": {
+      "agenda": "Be the wall between his family and whatever comes for them.",
+      "motive": "Protection",
+      "flaw": "When one of his children is in danger, his tactical discipline collapses entirely."
+    },
+    "attackMoves": [
+      {
+        "label": "Ironwall Charge",
+        "stat": "physique",
+        "dicePool": 11,
+        "range": "near",
+        "description": "Full-suit momentum strike. On 3+ successes, target is knocked prone and pushed 3 hexes. Charge Up talent applies."
+      },
+      {
+        "label": "Shield Bash",
+        "stat": "physique",
+        "dicePool": 9,
+        "range": "near",
+        "description": "AEGIS-02 deploys a hardened forearm plate. On 2+ successes, negates one incoming attack this round as a reaction."
+      },
+      {
+        "label": "Overcharge Slam",
+        "stat": "physique",
+        "dicePool": 13,
+        "range": "near",
+        "description": "Charge Up + Overcharge. Requires one turn to charge. If interrupted, loses bonus dice."
+      }
+    ],
+    "isHuman": true
+  },
+  "prototypeToken": {
+    "name": "AEGIS-02 \"Ironwall\" (Daren Kael)",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [],
+  "effects": [],
+  "folder": "wAdOXgIg5TaYqiCj",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.npcs.Actor.FrJhBLYN6mIIUdEa",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Actor.FrJhBLYN6mIIUdEa",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778811311707,
+    "modifiedTime": 1778811311707,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

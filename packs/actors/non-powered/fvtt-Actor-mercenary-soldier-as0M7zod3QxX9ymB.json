@@ -1,0 +1,175 @@
+{
+  "name": "Mercenary Soldier",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "<p>A trained private military contractor. Mercenary soldiers appear as hired muscle for mid-to-high tier villains. They are disciplined, work in coordinated units, and do not break easily. They have no loyalty beyond their contract.</p>",
+    "secretId": "",
+    "npcType": "antagonist",
+    "powerRating": 1,
+    "stats": {
+      "physique": 4,
+      "finesse": 4,
+      "stamina": 4,
+      "acuity": 2,
+      "presence": 2
+    },
+    "will": {
+      "value": 7,
+      "max": 7
+    },
+    "resist": {
+      "value": 5,
+      "max": 5
+    },
+    "dicePoolMax": 8,
+    "movement": 6,
+    "traits": {
+      "agenda": "Complete the objective. Neutralise threats. Withdraw if the mission is compromised.",
+      "motive": "Contract",
+      "flaw": "No initiative — freezes briefly when their chain of command is disrupted."
+    },
+    "attackMoves": [
+      {
+        "label": "Assault Rifle",
+        "stat": "finesse",
+        "dicePool": 5,
+        "range": "far",
+        "description": "Ranged attack, accurate at distance."
+      },
+      {
+        "label": "Combat Knife",
+        "stat": "physique",
+        "dicePool": 4,
+        "range": "near",
+        "description": "Close quarters backup."
+      },
+      {
+        "label": "Suppression Fire",
+        "stat": "finesse",
+        "dicePool": 4,
+        "range": "far",
+        "description": "Forces targets to make a Resist Acuity roll or spend their move taking cover instead of acting."
+      }
+    ],
+    "isHuman": true
+  },
+  "prototypeToken": {
+    "name": "Mercenary Soldier",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [],
+  "effects": [],
+  "folder": "GqLVB8sLKKJtybbN",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.npcs.Actor.as0M7zod3QxX9ymB",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Actor.as0M7zod3QxX9ymB",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778811311707,
+    "modifiedTime": 1778811311707,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "name": "Recluse",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "<p>A villain operating at the edge of the PR3 range, Recluse is a teleporter and assassin who takes contracts only against paragons. She is business-like, efficient, and genuinely enjoys the challenge of hunting people who can fight back. She has a strict personal code — no civilians, no collateral — which makes her both more manageable and more dangerous.</p>",
+    "secretId": "Yara Solano",
+    "npcType": "antagonist",
+    "powerRating": 3,
+    "stats": {
+      "physique": 4,
+      "finesse": 7,
+      "stamina": 4,
+      "acuity": 4,
+      "presence": 3
+    },
+    "will": {
+      "value": 15,
+      "max": 15
+    },
+    "resist": {
+      "value": 13,
+      "max": 13
+    },
+    "dicePoolMax": 12,
+    "movement": 10,
+    "traits": {
+      "agenda": "Complete the mark. Get paid. Never leave a witness who matters.",
+      "motive": "Professionalism",
+      "flaw": "Her code is a liability — heroes can exploit her refusal to harm civilians."
+    },
+    "attackMoves": [
+      {
+        "label": "Teleport Strike",
+        "stat": "finesse",
+        "dicePool": 10,
+        "range": "near",
+        "description": "Teleports behind target and strikes in the same action. Target cannot use reactions against this."
+      },
+      {
+        "label": "Phase Blade",
+        "stat": "finesse",
+        "dicePool": 9,
+        "range": "near",
+        "description": "Blade partially phases through armour and defensive abilities. Ignores 2 points of Resist."
+      }
+    ],
+    "isHuman": false
+  },
+  "prototypeToken": {
+    "name": "Recluse",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [],
+  "effects": [],
+  "folder": "GqLVB8sLKKJtybbN",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.paragons.npcs.Actor.fSoqAeef1JFSy8pi",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "paragons-provisional",
+      "uuid": "Actor.fSoqAeef1JFSy8pi",
+      "coreVersion": "13.351",
+      "systemId": "paragons",
+      "systemVersion": "0.2.0"
+    },
+    "coreVersion": "13.351",
+    "systemId": "paragons",
+    "systemVersion": "0.2.0",
+    "createdTime": 1778811311707,
+    "modifiedTime": 1778811311707,
+    "lastModifiedBy": "MuIQ6Rg5mgZrRQWa"
+  },
+  "ownership": {
+    "default": 0
+  }
+}
