@@ -231,8 +231,9 @@
 .human-toggle { margin-top: 8px; font-size: 11px; justify-content: center; color: rgba(255,255,255,0.8); }
 .stat-total-bar { display: flex; justify-content: space-between; font-size: 11px; color: var(--paragons-text-muted); padding: 4px 0 8px; }
 .over-cap { color: #e74c3c; font-weight: 700; }
-.npc-traits-layout { display: flex; gap: 16px; }
-.traits-column { flex: 1; } .notes-column { flex: 1.2; }
+.npc-traits-layout { display: flex; gap: 16px; align-items: flex-start; }
+.traits-column { flex: 1; min-width: 0; }
+.notes-column { flex: 2; min-width: 0; }
 
 /* ── Attack Moves ─────────────────────────── */
 .attack-moves-section { margin-top: 10px; }
