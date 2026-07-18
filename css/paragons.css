@@ -46,19 +46,31 @@
   --p-tab-bg:     #0d0d0d;
 }
 
-/* ─── Grid & Flex Utilities ─────────────────────────────────────────────── */
-.grid { display: grid; gap: 8px; }
-.grid-1col { grid-template-columns: 1fr; }
-.grid-2col { grid-template-columns: repeat(2, 1fr); }
-.grid-3col { grid-template-columns: repeat(3, 1fr); }
-.grid-4col { grid-template-columns: repeat(4, 1fr); }
-.grid-5col { grid-template-columns: repeat(5, 1fr); }
-.grid-6col { grid-template-columns: repeat(6, 1fr); }
-.grid-span-2 { grid-column: span 2; }
-.grid-span-3 { grid-column: span 3; }
-.flexrow { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; }
-.flexcol { display: flex; flex-direction: column; }
-.flex-group-center { display: flex; align-items: center; justify-content: center; gap: 4px; }
+/* ─── Grid Utilities (scoped to Paragons windows) ───────────────────────
+   NOTE: flexrow / flexcol are intentionally omitted — Foundry core already
+   defines them globally. Redefining them here overrides the cascade rule
+   that hides inactive sidebar-tab sections, breaking the sidebar.
+   ──────────────────────────────────────────────────────────────────────── */
+.paragons .grid,
+.paragons-sheet .grid { display: grid; gap: 8px; }
+.paragons .grid-1col,
+.paragons-sheet .grid-1col { grid-template-columns: 1fr; }
+.paragons .grid-2col,
+.paragons-sheet .grid-2col { grid-template-columns: repeat(2, 1fr); }
+.paragons .grid-3col,
+.paragons-sheet .grid-3col { grid-template-columns: repeat(3, 1fr); }
+.paragons .grid-4col,
+.paragons-sheet .grid-4col { grid-template-columns: repeat(4, 1fr); }
+.paragons .grid-5col,
+.paragons-sheet .grid-5col { grid-template-columns: repeat(5, 1fr); }
+.paragons .grid-6col,
+.paragons-sheet .grid-6col { grid-template-columns: repeat(6, 1fr); }
+.paragons .grid-span-2,
+.paragons-sheet .grid-span-2 { grid-column: span 2; }
+.paragons .grid-span-3,
+.paragons-sheet .grid-span-3 { grid-column: span 3; }
+.paragons .flex-group-center,
+.paragons-sheet .flex-group-center { display: flex; align-items: center; justify-content: center; gap: 4px; }
 
 /* ─── Base Sheet Reset ──────────────────────────────────────────────────── */
 .paragons-sheet {
