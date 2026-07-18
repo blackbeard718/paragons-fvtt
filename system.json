@@ -2,7 +2,7 @@
   "id": "paragons",
   "title": "Paragons: The Roleplaying Game",
   "description": "An Unofficial implementation of Paragons: The Roleplaying Game by Broken Door Entertainment.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "compatibility": {
     "minimum": "13",
     "verified": "13"

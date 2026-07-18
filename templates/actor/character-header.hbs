@@ -1,51 +1,59 @@
-{{!-- character-header.hbs — always-visible header --}}
-<div class="sheet-header">
-  <div class="sidebar-accent"></div>
-  <div class="sheet-portrait-wrapper">
-    <img class="sheet-portrait"
-         src="{{actor.img}}"
-         data-edit="img"
-         data-tooltip="{{actor.name}}"
-         title="Click to change portrait" />
-  </div>
-  <div class="header-fields-wrapper">
-    <div class="header-main">
-      <div class="field-group name-group">
-        <label class="field-label">Paragon Name</label>
-        <input type="text" name="name" value="{{actor.name}}" class="paragon-name-input" />
+{{!-- character-header.hbs — Invincible-style header --}}
+<div class="main-sheet">
+  <header class="sheet-header">
+    <img src="systems/paragons/assets/paragons-logo.webp" class="sheet-logo"
+         onerror="this.style.display='none'" />
+    <div class="bg-accent"></div>
+
+    {{!-- Portrait --}}
+    <div class="header-portrait">
+      <img class="profile-img clickable"
+           src="{{actor.img}}"
+           data-action="onEditImage"
+           data-tooltip="Change portrait" />
+    </div>
+
+    {{!-- Identity --}}
+    <div class="header-fields">
+      <div class="header-name-row">
+        <div class="form-group name-wide">
+          <label>Paragon Name</label>
+          <input type="text" name="name" value="{{actor.name}}" placeholder="Name" />
+        </div>
+        <div class="form-group">
+          <label>Secret Identity</label>
+          <input type="text" name="system.secretId" value="{{system.secretId}}" placeholder="Civilian name" />
+        </div>
       </div>
-      <div class="field-group alias-group">
-        <label class="field-label">Character Alias</label>
-        <input type="text" name="system.secretId" value="{{system.secretId}}" />
+      <div class="header-meta-row">
+        <div class="form-group">
+          <label>Pronouns</label>
+          <input type="text" name="system.pronouns" value="{{system.pronouns}}" placeholder="they/them" />
+        </div>
+        <div class="form-group">
+          <label>Player</label>
+          <input type="text" name="system.playerName" value="{{system.playerName}}" />
+        </div>
+        <div class="form-group level-group">
+          <label>Level</label>
+          <input type="number" name="system.level" value="{{system.level}}" min="1" max="20" />
+        </div>
+        <div class="form-group">
+          <label>Archetype</label>
+          <select name="system.archetype">
+            <option value="">— Choose —</option>
+            {{#each archetypeChoices}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+          </select>
+        </div>
       </div>
-      <div class="field-group pronouns-group">
-        <label class="field-label">Pronouns</label>
-        <input type="text" name="system.pronouns" value="{{system.pronouns}}" />
-      </div>
-      <div class="field-group player-group">
-        <label class="field-label">Player Name</label>
-        <input type="text" name="system.playerName" value="{{system.playerName}}" />
+      <div class="header-notes-row">
+        <div class="form-group notes-wide">
+          <label>Session Notes</label>
+          <input type="text" name="system.sessionNotes" value="{{system.sessionNotes}}" placeholder="Notes for this session..." />
+        </div>
       </div>
     </div>
-    <div class="header-sub">
-      <div class="field-group level-group">
-        <label class="field-label">Level</label>
-        <input type="number" name="system.level" value="{{system.level}}" min="1" max="20" />
-      </div>
-      <div class="field-group archetype-group">
-        <label class="field-label">Archetype</label>
-        <select name="system.archetype">
-          <option value="">— Choose —</option>
-          {{#each archetypeChoices}}
-          <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
-          {{/each}}
-        </select>
-      </div>
-      <div class="lightning-graphic"></div>
-      <div class="field-group notes-group">
-        <label class="field-label">Notes:</label>
-        <input type="text" name="system.sessionNotes" value="{{system.sessionNotes}}" placeholder="Session notes..." />
-      </div>
-    </div>
-  </div>
+  </header>
 </div>
