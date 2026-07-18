@@ -1225,6 +1225,212 @@
   color: #6a5200;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   GLOBAL FOUNDRY UI THEMING — applies to sidebar, window chrome, directory
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Foundry CSS Variable Overrides ───────────────────────────────────── */
+:root {
+  --color-border-highlight:      #1a6b5a;
+  --color-border-highlight-alt:  #f5e542;
+  --color-warm-1:                #1a6b5a;
+  --color-warm-2:                #134e43;
+  --color-warm-3:                #2a8c76;
+}
+
+/* ─── Sidebar Tabs ──────────────────────────────────────────────────────── */
+#sidebar-tabs {
+  background: #111111;
+  border-bottom: 2px solid #1a6b5a;
+}
+
+#sidebar-tabs .item {
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+#sidebar-tabs .item.active {
+  color: #f5e542;
+  border-bottom-color: #f5e542 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #sidebar-tabs .item:not(.active):hover {
+    color: rgba(245, 229, 66, 0.6);
+  }
+}
+
+/* ─── Sidebar Directory ─────────────────────────────────────────────────── */
+#sidebar .directory-header {
+  background: #111111;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(26, 107, 90, 0.35);
+}
+
+#sidebar .directory-header h2,
+#sidebar .directory-header h3 {
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+
+/* Directory header buttons */
+#sidebar .directory-header .action-buttons button,
+#sidebar .directory-header .header-actions button {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  background: rgba(26, 107, 90, 0.15);
+  border: 1px solid rgba(26, 107, 90, 0.4);
+  color: #e8e4db;
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #sidebar .directory-header .action-buttons button:hover,
+  #sidebar .directory-header .header-actions button:hover {
+    background: rgba(26, 107, 90, 0.3);
+    border-color: #1a6b5a;
+  }
+}
+
+/* ─── Folder Headers ────────────────────────────────────────────────────── */
+.directory-list .folder > .folder-header,
+.directory-list .folder > header.folder-header {
+  background: #1a6b5a;
+  color: #ffffff;
+  border: none;
+  border-left: 3px solid #f5e542;
+  padding: 4px 10px;
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  border-radius: 0 3px 3px 0;
+  margin: 1px 0;
+  transition: background 120ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .directory-list .folder > .folder-header:hover,
+  .directory-list .folder > header.folder-header:hover {
+    background: #2a8c76;
+  }
+}
+
+.directory-list .folder > .folder-header i,
+.directory-list .folder > header.folder-header i {
+  color: #f5e542;
+  margin-right: 4px;
+}
+
+/* Nested subfolder — slightly darker */
+.directory-list .folder .folder > .folder-header,
+.directory-list .folder .folder > header.folder-header {
+  background: #134e43;
+  border-left-color: rgba(245, 229, 66, 0.5);
+}
+
+/* ─── Directory List Items ──────────────────────────────────────────────── */
+.directory-list .document {
+  border-bottom: 1px solid rgba(26, 107, 90, 0.12);
+  transition: background 100ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .directory-list .document:hover {
+    background: rgba(26, 107, 90, 0.08);
+  }
+}
+
+.directory-list .document .document-name {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Actor thumbnail */
+.directory-list .document img {
+  border: 1px solid rgba(26, 107, 90, 0.3);
+  border-radius: 3px;
+}
+
+/* ─── Window App Chrome ─────────────────────────────────────────────────── */
+.app.window-app .window-header {
+  background: #134e43;
+  border-bottom: 2px solid #f5e542;
+}
+
+.app.window-app .window-header h1,
+.app.window-app .window-header .window-title {
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+.app.window-app .window-header .header-button,
+.app.window-app .window-header button {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 120ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .app.window-app .window-header .header-button:hover,
+  .app.window-app .window-header button:hover {
+    color: #f5e542;
+  }
+}
+
+/* Window resize handle */
+.app.window-app .window-resizable-handle {
+  color: rgba(26, 107, 90, 0.4);
+}
+
+/* ─── Chat Log ──────────────────────────────────────────────────────────── */
+#chat-log .message {
+  border-bottom: 1px solid rgba(26, 107, 90, 0.15);
+}
+
+#chat-log .message.roll {
+  border-left: 3px solid #1a6b5a;
+}
+
+/* Roll result styling */
+.dice-roll .dice-total {
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.03em;
+  color: #134e43;
+}
+
+/* ─── Notifications / Hotbar ────────────────────────────────────────────── */
+#hotbar {
+  border-top: 2px solid #1a6b5a;
+}
+
+/* ─── Context Menus ─────────────────────────────────────────────────────── */
+#context-menu .context-item {
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  transition: background 100ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #context-menu .context-item:hover {
+    background: rgba(26, 107, 90, 0.15);
+    color: #134e43;
+  }
+}
+
+/* ─── Tooltips ──────────────────────────────────────────────────────────── */
+#tooltip {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  border: 1px solid #1a6b5a;
+}
+
 /* ─── Reduced Motion ────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
