@@ -23,12 +23,12 @@
   --p-yellow-dark:   #d4c420;
   --p-yellow-muted:  rgba(245, 229, 66, 0.15);
   --p-black:         #111111;
-  --p-bg:            #f4f2ed;
-  --p-bg-alt:        #eae7e0;
-  --p-border:        rgba(26, 107, 90, 0.25);
-  --p-border-strong: rgba(26, 107, 90, 0.5);
-  --p-text:          #1c1c1c;
-  --p-text-muted:    #555;
+  --p-bg:            #1a1a1a;
+  --p-bg-alt:        #222222;
+  --p-border:        rgba(26, 107, 90, 0.3);
+  --p-border-strong: rgba(26, 107, 90, 0.55);
+  --p-text:          #e8e4db;
+  --p-text-muted:    #909090;
   --p-tab-bg:        #111111;
   --p-tab-active:    #1a6b5a;
   --p-shadow:        rgba(0, 0, 0, 0.15);
@@ -36,13 +36,13 @@
   --font-body:       'Nunito', 'Signika', sans-serif;
 }
 
-/* Dark theme overrides */
+/* Dark theme overrides (deeper darks for FVTT dark mode) */
 .theme-dark {
-  --p-bg:         #1a1a1a;
-  --p-bg-alt:     #242424;
-  --p-border:     rgba(26, 107, 90, 0.3);
-  --p-text:       #e8e4db;
-  --p-text-muted: #999;
+  --p-bg:         #141414;
+  --p-bg-alt:     #1c1c1c;
+  --p-border:     rgba(26, 107, 90, 0.35);
+  --p-text:       #f0ece4;
+  --p-text-muted: #aaa;
   --p-tab-bg:     #0d0d0d;
 }
 
@@ -103,7 +103,7 @@
 .paragons-sheet select:focus,
 .paragons-sheet textarea:focus {
   border-bottom-color: var(--p-teal);
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .paragons-sheet input[type="checkbox"] {
@@ -119,7 +119,7 @@
   border: 1px solid var(--p-border);
   border-radius: 4px;
   padding: 6px 8px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .paragons-sheet select {
@@ -462,7 +462,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  background: #fff;
+  background: var(--p-bg-alt);
   border: 1px solid var(--p-border);
   border-radius: 6px;
   padding: 8px 6px;
@@ -493,7 +493,7 @@
   font-family: var(--font-header);
   font-size: 28px;
   letter-spacing: 0.01em;
-  color: var(--p-teal-dark);
+  color: var(--p-teal-light);
   border: none;
   background: transparent;
   text-align: center;
@@ -545,7 +545,7 @@
   gap: 3px;
   flex: 1;
   min-width: 90px;
-  background: #fff;
+  background: var(--p-bg-alt);
   border: 1px solid var(--p-border);
   border-top: 3px solid var(--p-teal);
   border-radius: 0 0 5px 5px;
@@ -725,7 +725,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
+  background: var(--p-bg-alt);
   border: 1px solid var(--p-border);
   border-radius: 4px;
   padding: 4px 8px;
@@ -847,7 +847,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  background: #fff;
+  background: var(--p-bg-alt);
   border: 1px solid var(--p-border);
   border-left: 3px solid var(--p-teal);
   border-radius: 0 4px 4px 0;
@@ -917,7 +917,7 @@
 }
 
 .move-entry {
-  background: #fff;
+  background: var(--p-bg-alt);
   border: 1px solid var(--p-border);
   border-radius: 5px;
   padding: 8px 10px;
