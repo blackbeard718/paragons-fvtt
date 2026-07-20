@@ -12,6 +12,16 @@
       "name": "blackbeard718"
     }
   ],
+  "url": "https://github.com/blackbeard718/paragons-fvtt",
+  "readme": "README.md",
+  "bugs": "https://github.com/blackbeard718/paragons-fvtt/issues",
+  "changelog": "https://github.com/blackbeard718/paragons-fvtt/releases",
+  "media": [
+    {
+      "type": "setup",
+      "url": "assets/paragons.png",
+      "thumbnail": "assets/paragons.png"
+    }
   "esmodules": [
     "module/paragons.mjs"
   ],
