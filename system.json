@@ -16,13 +16,13 @@
   "readme": "README.md",
   "bugs": "https://github.com/blackbeard718/paragons-fvtt/issues",
   "changelog": "https://github.com/blackbeard718/paragons-fvtt/releases",
-  "media": [
-    {
-      "type": "setup",
-      "url": "assets/paragons.png",
-      "thumbnail": "assets/paragons.png"
-    }
-  ],
+"media": [
+  {
+    "type": "setup",
+    "url": "https://raw.githubusercontent.com/blackbeard718/paragons-fvtt/main/assets/paragons.png",
+    "thumbnail": "https://raw.githubusercontent.com/blackbeard718/paragons-fvtt/main/assets/paragons.png"
+  }
+],
   "esmodules": [
     "module/paragons.mjs"
   ],
