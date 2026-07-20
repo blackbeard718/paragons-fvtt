@@ -19,8 +19,8 @@
 "media": [
   {
     "type": "setup",
-    "url": "https://raw.githubusercontent.com/blackbeard718/paragons-fvtt/main/assets/paragons.png",
-    "thumbnail": "https://raw.githubusercontent.com/blackbeard718/paragons-fvtt/main/assets/paragons.png"
+    "url": "systems/paragons-fvtt/assets/paragons.png",
+    "thumbnail": "systems/paragons-fvtt/assets/paragons.png"
   }
 ],
   "esmodules": [
