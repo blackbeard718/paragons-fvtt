@@ -44,7 +44,7 @@ In your Forge-hosted Foundry instance, go to **Settings → Game Systems → Ins
 
 | Foundry Version | Status |
 |-----------------|--------|
-| V12 | ✅ Verified |
+| V13| ✅ Verified |
 
 ## Credits
 
